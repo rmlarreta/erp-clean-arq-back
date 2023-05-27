@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erp.Api.Web", "Erp.Api.Web\Erp.Api.Web.csproj", "{6AE13F6F-04B3-47EE-A169-3391DD92CED0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{7803BC1A-2DEB-4B82-836E-D43C441869B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AE13F6F-04B3-47EE-A169-3391DD92CED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AE13F6F-04B3-47EE-A169-3391DD92CED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AE13F6F-04B3-47EE-A169-3391DD92CED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AE13F6F-04B3-47EE-A169-3391DD92CED0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6AE13F6F-04B3-47EE-A169-3391DD92CED0} = {7803BC1A-2DEB-4B82-836E-D43C441869B4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6E3CBAD6-0ACD-43E2-85C6-A0C766CAB086}
+	EndGlobalSection
+EndGlobal
