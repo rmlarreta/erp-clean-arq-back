@@ -3,9 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erp.Api.Web", "Erp.Api.Web\Erp.Api.Web.csproj", "{6AE13F6F-04B3-47EE-A169-3391DD92CED0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Web", "Erp.Api.Web\Erp.Api.Web.csproj", "{6AE13F6F-04B3-47EE-A169-3391DD92CED0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{7803BC1A-2DEB-4B82-836E-D43C441869B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Domain", "Erp.Api.Domain\Erp.Api.Domain.csproj", "{BB14A094-B874-4646-A1F3-E7EA72233FF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Infrastructure", "Erp.Api.Infrastructure\Erp.Api.Infrastructure.csproj", "{9F9CEF68-83B8-4482-9FFD-0AFB3FDB9432}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.SecurityService", "Erp.Api.SecurityService\Erp.Api.SecurityService.csproj", "{26D9E938-4592-4941-9048-4BE8E452A955}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Application", "Erp.Api.Application\Erp.Api.Application.csproj", "{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Erp.Api.Application", "Erp.Api.Application", "{51E88297-4019-4840-B1F2-4FE9F1283EA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{863E5114-480E-49CD-B47D-83C6EDEA5C98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +27,30 @@ Global
 		{6AE13F6F-04B3-47EE-A169-3391DD92CED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AE13F6F-04B3-47EE-A169-3391DD92CED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AE13F6F-04B3-47EE-A169-3391DD92CED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB14A094-B874-4646-A1F3-E7EA72233FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB14A094-B874-4646-A1F3-E7EA72233FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB14A094-B874-4646-A1F3-E7EA72233FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB14A094-B874-4646-A1F3-E7EA72233FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F9CEF68-83B8-4482-9FFD-0AFB3FDB9432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F9CEF68-83B8-4482-9FFD-0AFB3FDB9432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F9CEF68-83B8-4482-9FFD-0AFB3FDB9432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F9CEF68-83B8-4482-9FFD-0AFB3FDB9432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D9E938-4592-4941-9048-4BE8E452A955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D9E938-4592-4941-9048-4BE8E452A955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D9E938-4592-4941-9048-4BE8E452A955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D9E938-4592-4941-9048-4BE8E452A955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6AE13F6F-04B3-47EE-A169-3391DD92CED0} = {7803BC1A-2DEB-4B82-836E-D43C441869B4}
+		{26D9E938-4592-4941-9048-4BE8E452A955} = {863E5114-480E-49CD-B47D-83C6EDEA5C98}
+		{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB} = {51E88297-4019-4840-B1F2-4FE9F1283EA6}
+		{863E5114-480E-49CD-B47D-83C6EDEA5C98} = {51E88297-4019-4840-B1F2-4FE9F1283EA6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E3CBAD6-0ACD-43E2-85C6-A0C766CAB086}
