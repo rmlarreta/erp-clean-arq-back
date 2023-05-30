@@ -13,8 +13,8 @@ namespace Erp.Api.Domain.Entities
             get
             {
 
-                if (_id == default || _id == Guid.Empty)
-                    _id = Guid.NewGuid();
+                //if (_id == default || _id == Guid.Empty)
+                //    _id = Guid.NewGuid();
                 return _id;
             }
 
