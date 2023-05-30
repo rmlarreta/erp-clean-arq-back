@@ -7,8 +7,8 @@ namespace Erp.Api.Web.Controllers
     [Route("api/[Controller]/[Action]")]
     [ApiController]
     public abstract class CommonController : ControllerBase
-    
+
     {
-        
+
     }
 }

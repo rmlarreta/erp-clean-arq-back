@@ -12,7 +12,7 @@ namespace Erp.Api.Application.Dtos.Commons
                 var data = objectResult.Value;
 
                 // Modificar la respuesta si es necesario
-                var modifiedResponse = new DataResponse<object>(data);
+                DataResponse<object> modifiedResponse = new(data);
 
                 // Establecer la respuesta modificada
                 context.Result = new ObjectResult(modifiedResponse)
