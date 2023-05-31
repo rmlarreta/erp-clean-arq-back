@@ -86,6 +86,10 @@ namespace Erp.Api.Infrastructure.Data.Services
             return _repository.GetAll();
         }
 
+        public virtual IQueryable<TEntity> GetAll(Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            return _repository.GetAll(includeProperties);
+        }
         public async virtual Task<TEntity> Get(Guid id)
         {
             return await _repository.Get(id);

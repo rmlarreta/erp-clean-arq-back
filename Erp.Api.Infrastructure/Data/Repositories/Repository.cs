@@ -64,6 +64,18 @@ namespace Erp.Api.Infrastructure.Data.Repositories
             return _erpbdContext.Set<T>();
         }
 
+        public IQueryable<T> GetAll(Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _erpbdContext.Set<T>();
+
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return query;
+        }
+
         public void Update(T entity)
         {
             _erpbdContext.Entry(entity).State = EntityState.Modified;

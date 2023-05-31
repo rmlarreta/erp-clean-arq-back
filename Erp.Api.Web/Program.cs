@@ -23,7 +23,7 @@ builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 IConfigurationSection? appSettingsSection = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(appSettingsSection);
-
+  
 AppSettings? appSettings = appSettingsSection.Get<AppSettings>();
 byte[]? key = Encoding.ASCII.GetBytes(appSettings!.Secret!);
 builder.Services.AddAuthentication(x =>
@@ -90,8 +90,7 @@ builder.Services.AddCors(p => p.AddPolicy("PolicyCors", build =>
 
 IoC.AddServices(builder.Services);
 
-WebApplication? app = builder.Build();
-
+WebApplication? app = builder.Build(); 
 app.UseSwagger();
 app.UseSwaggerUI();
 

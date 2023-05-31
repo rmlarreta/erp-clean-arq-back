@@ -44,7 +44,7 @@ namespace Erp.Api.Web.Controllers
         [Authorize(Policy = Policies.Admin)]
         [ProducesResponseType(typeof(DataResponse<List<UserDto>>), StatusCodes.Status200OK)]
         public IActionResult GetAllUsers()
-        {
+        { 
             return Ok(_userService.GetAllUsers());
         }
 

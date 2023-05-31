@@ -11,6 +11,7 @@ namespace Erp.Api.Domain.Repositories
         Task<T> Get(Expression<Func<T, bool>> expression, Expression<Func<T, object>>[] includeProperties);
         Task<T> Get(Guid id, Expression<Func<T, object>>[] includeProperties);
         DbSet<T> GetAll();
+        IQueryable<T> GetAll(Expression<Func<T, object>>[] includeProperties);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);

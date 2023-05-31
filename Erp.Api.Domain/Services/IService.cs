@@ -6,6 +6,7 @@ namespace Erp.Api.Domain.Services
     public interface IService<TEntity> where TEntity : class, IEntity
     {
         IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> GetAll(Expression<Func<TEntity, object>>[] includeProperties);
         Task<TEntity> Get(Guid id);
         Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>>[] includeProperties);
         Task<TEntity> Get(Guid id, Expression<Func<TEntity, object>>[] includeProperties);

@@ -14,7 +14,7 @@ namespace Erp.Api.SecurityService.Application
         private readonly IMapper _mapper;
         public UserService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
         {
-           _mapper = mapper;
+            _mapper = mapper;
         }
 
         public async Task CreateUser(UserInsertDto user)
@@ -50,7 +50,11 @@ namespace Erp.Api.SecurityService.Application
 
         public IEnumerable<UserDto> GetAllUsers()
         {
-            List<SecUser>? users = GetAll().ToList();
+            Expression<Func<SecUser, object>>[] includeProperties = new Expression<Func<SecUser, object>>[]
+              {
+                    u=>u.RoleNavigation
+              };
+            List<SecUser>? users = GetAll(includeProperties).ToList();
             return _mapper.Map<List<UserDto>>(users);
         }
 
@@ -70,7 +74,7 @@ namespace Erp.Api.SecurityService.Application
             {
                     u=>u.RoleNavigation
             };
-            SecUser? user =  await Get(id, includeProperties);
+            SecUser? user = await Get(id, includeProperties);
             return _mapper.Map<UserDto>(user);
         }
 
