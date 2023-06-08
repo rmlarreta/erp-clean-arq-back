@@ -7,12 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.4.23259.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.4.23259.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Erp.Api.Application\Erp.Api.Application.csproj" />
     <ProjectReference Include="..\Erp.Api.Domain\Erp.Api.Domain.csproj" />
   </ItemGroup>
 

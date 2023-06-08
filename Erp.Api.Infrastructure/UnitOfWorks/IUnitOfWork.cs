@@ -15,7 +15,10 @@ namespace Erp.Api.Infraestructure.UnitOfWorks
 
         Task<int> SaveChangesAsync<T>() where T : class, IEntity;
 
-        bool IsDisposed();
+        void Commit();
 
+        void Rollback();
+
+        bool IsDisposed();
     }
 }

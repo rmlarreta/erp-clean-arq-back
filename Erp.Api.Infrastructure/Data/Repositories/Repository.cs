@@ -45,7 +45,7 @@ namespace Erp.Api.Infrastructure.Data.Repositories
             {
                 query = query.Include(includeProperty);
             }
-            return await query.FirstOrDefaultAsync(expression)!;
+            return await query.OrderBy(x => x.Id).FirstOrDefaultAsync(expression)!;
         }
         public async Task<T> Get(Guid id, Expression<Func<T, object>>[] includeProperties)
         {
@@ -56,7 +56,7 @@ namespace Erp.Api.Infrastructure.Data.Repositories
                 query = query.Include(includeProperty);
             }
 
-            return await query.FirstOrDefaultAsync(x => x.Id == id);
+            return await query.OrderBy(x=>x.Id).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public DbSet<T> GetAll()

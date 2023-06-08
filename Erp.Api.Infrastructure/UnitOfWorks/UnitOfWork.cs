@@ -2,6 +2,7 @@
 using Erp.Api.Infraestructure.DbContexts;
 using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Erp.Api.Infrastructure.UnitOfWorks
 {
@@ -14,6 +15,7 @@ namespace Erp.Api.Infrastructure.UnitOfWorks
         {
             _modelContext = modelContext;
         }
+
         public ErpDbContext GetContext<T>() where T : class, IEntity
         {
             return GetModelContext();
@@ -21,7 +23,6 @@ namespace Erp.Api.Infrastructure.UnitOfWorks
 
         public ErpDbContext GetModelContext()
         {
-
             return _modelContext;
         }
 
@@ -29,15 +30,40 @@ namespace Erp.Api.Infrastructure.UnitOfWorks
         {
             return new Repository<T>(GetContext<T>());
         }
-        int IUnitOfWork.SaveChanges<T>()
+
+        public int SaveChanges<T>() where T : class, IEntity
         {
             return GetContext<T>().SaveChanges();
         }
 
-        async Task<int> IUnitOfWork.SaveChangesAsync<T>()
+        public async Task<int> SaveChangesAsync<T>() where T : class, IEntity
         {
             return await GetContext<T>().SaveChangesAsync();
         }
+
+        public void Commit()
+        {
+            _modelContext.SaveChanges();
+        }
+
+        public void Rollback()
+        {
+            // Descarta todos los cambios no guardados realizados en el contexto
+            foreach (var entry in _modelContext.ChangeTracker.Entries())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+                    case EntityState.Modified:
+                    case EntityState.Deleted:
+                        entry.Reload();
+                        break;
+                }
+            }
+        }
+
         public bool IsDisposed()
         {
             return _disposed;
@@ -50,6 +76,12 @@ namespace Erp.Api.Infrastructure.UnitOfWorks
                 _modelContext.Dispose();
             }
             _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Erp.Api.Application.Dtos.Users;
+using Erp.Api.Application.Dtos.Users.Commons;
 using Erp.Api.Domain.Entities;
 
 namespace Erp.Api.SecurityService.Interfaces
@@ -12,5 +13,8 @@ namespace Erp.Api.SecurityService.Interfaces
         IEnumerable<UserDto> GetAllUsers();
         Task<UserDto> GetUserById(Guid id);
         Task<UserDto> GetUserByName(string name);
+
+        //auxiliares
+        List<SecRoleDto> GetRoles();
     }
 }

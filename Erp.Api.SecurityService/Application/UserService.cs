@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Erp.Api.Application.Dtos.Users;
+using Erp.Api.Application.Dtos.Users.Commons;
 using Erp.Api.Domain.Entities;
+using Erp.Api.Domain.Repositories;
 using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Services;
 using Erp.Api.SecurityService.Extensions;
@@ -12,9 +14,11 @@ namespace Erp.Api.SecurityService.Application
     public class UserService : Service<SecUser>, IUserService
     {
         private readonly IMapper _mapper;
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
+        private readonly IRepository<SecRole> _roles;
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IRepository<SecRole> roles) : base(unitOfWork)
         {
             _mapper = mapper;
+            _roles = roles;
         }
 
         public async Task CreateUser(UserInsertDto user)
@@ -91,7 +95,20 @@ namespace Erp.Api.SecurityService.Application
 
         public async Task UpdateUser(UserUpdateDto user)
         {
-            await Update(_mapper.Map<SecUser>(user));
+            SecUser userToUpdate= await Get(user.Id);
+            userToUpdate.EndOfLife = user.EndOfLife;
+            userToUpdate.UserName = user.UserName;
+            userToUpdate.Role=user.Role;
+            userToUpdate.Active = user.Active;
+            userToUpdate.RealName = user.RealName; 
+            await Update(userToUpdate);
         }
+
+        #region Commons
+        public List<SecRoleDto> GetRoles()
+        {
+            return _mapper.Map<List<SecRoleDto>>(_roles.GetAll());
+        }
+        #endregion Commons
     }
 }

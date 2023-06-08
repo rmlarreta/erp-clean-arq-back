@@ -12,8 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Erp.Api.Application\Erp.Api.Application.csproj" />
-		<ProjectReference Include="..\Erp.Api.Infrastructure\Erp.Api.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Erp.Api.Application\Erp.Api.Application.csproj" />
 	</ItemGroup>
 
 </Project>

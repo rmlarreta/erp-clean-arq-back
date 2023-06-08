@@ -16,7 +16,7 @@ namespace Erp.Api.Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPut]
+        [HttpPost]
         [ProducesResponseType(typeof(DataResponse<UserAuth>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Authenticate([FromBody] UserRequest userRequest)
         {

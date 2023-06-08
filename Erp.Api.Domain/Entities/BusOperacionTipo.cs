@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Erp.Api.Domain.Entities;
 
-namespace Erp.Api.Domain.Entities;
-
-public partial class BusOperacionTipo
+public partial class BusOperacionTipo : Entity
 {
-    public Guid Id { get; set; }
-
     public string Name { get; set; } = null!;
 
     public string? Code { get; set; }

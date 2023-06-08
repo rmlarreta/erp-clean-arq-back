@@ -1,17 +1,29 @@
 ﻿using Erp.Api.Domain.Entities;
+using Erp.Api.Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Options;
 
 namespace Erp.Api.Infraestructure.DbContexts;
 
 public partial class ErpDbContext : DbContext
 {
-    public ErpDbContext()
-    {
-    }
-
-    public ErpDbContext(DbContextOptions<ErpDbContext> options)
+    private readonly AppSettings _appSettings;
+   
+    public ErpDbContext(DbContextOptions<ErpDbContext> options, IOptions<AppSettings> appSettings)
         : base(options)
     {
+        _appSettings = appSettings.Value;
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.ConfigureWarnings(warnings => warnings
+         .Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+        optionsBuilder.UseSqlServer(_appSettings.DefaultConnection, options =>
+        {
+            options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        });
+        base.OnConfiguring(optionsBuilder);
     }
 
     public virtual DbSet<BusEstado>? BusEstados { get; set; }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Erp.Api.Domain.Entities;
 
-namespace Erp.Api.Domain.Entities;
-
-public partial class SystemEmpresa
+public partial class SystemEmpresa : Entity
 {
-    public Guid Id { get; set; }
-
     public string Cuit { get; set; } = null!;
 
     public string Razon { get; set; } = null!;

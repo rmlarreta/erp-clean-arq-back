@@ -4,11 +4,11 @@ using Erp.Api.Domain.Entities;
 using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Services;
 using Erp.Api.Infrastructure.Helpers;
-using Erp.Api.SecurityService.Extensions;
 using Erp.Api.SecurityService.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using ExtensionMethods = Erp.Api.SecurityService.Extensions.ExtensionMethods;
 
 namespace Erp.Api.SecurityService.Application
 {
@@ -86,7 +86,7 @@ namespace Erp.Api.SecurityService.Application
 
         public string GetPerfilAuthenticated()
         {
-            return ExtensionMethods.GetUserPerfil(_cp); 
+            return ExtensionMethods.GetUserPerfil(_cp);
         }
 
         public string GetUserAuthenticated()

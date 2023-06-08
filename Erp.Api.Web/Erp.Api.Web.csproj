@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Erp.Api.SecurityService\Erp.Api.SecurityService.csproj" />
+    <ProjectReference Include="..\IOperacionesService\Erp.Api.OperacionesService.csproj" />
   </ItemGroup>
 
 </Project>

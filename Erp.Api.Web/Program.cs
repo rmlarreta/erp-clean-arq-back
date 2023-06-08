@@ -1,15 +1,15 @@
 using Erp.Api.Application.Dtos.Commons;
+using Erp.Api.Application.Mapping;
 using Erp.Api.Infraestructure.DbContexts;
 using Erp.Api.Infrastructure.Helpers;
-using Erp.Api.Infrastructure.Mapping;
 using Erp.Api.SecurityService.Extensions;
 using Erp.Api.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
@@ -18,12 +18,16 @@ builder.Services.AddControllers(options =>
 });
 
 IServiceCollection serviceCollection = builder.Services.AddDbContext<ErpDbContext>(Options => Options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Configuration.GetConnectionString("DefaultConnection"))
+        .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.MultipleCollectionIncludeWarning))
+        .EnableDetailedErrors()
+        .EnableSensitiveDataLogging());
+
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 IConfigurationSection? appSettingsSection = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(appSettingsSection);
-  
+
 AppSettings? appSettings = appSettingsSection.Get<AppSettings>();
 byte[]? key = Encoding.ASCII.GetBytes(appSettings!.Secret!);
 builder.Services.AddAuthentication(x =>
@@ -90,7 +94,7 @@ builder.Services.AddCors(p => p.AddPolicy("PolicyCors", build =>
 
 IoC.AddServices(builder.Services);
 
-WebApplication? app = builder.Build(); 
+WebApplication? app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 

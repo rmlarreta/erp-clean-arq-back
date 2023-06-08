@@ -1,5 +1,6 @@
 ﻿using Erp.Api.Application.Dtos.Commons;
 using Erp.Api.Application.Dtos.Users;
+using Erp.Api.Application.Dtos.Users.Commons;
 using Erp.Api.SecurityService.Extensions;
 using Erp.Api.SecurityService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace Erp.Api.Web.Controllers
             _userService = userService;
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize(Policy = Policies.Admin)]
         public async Task<IActionResult> CreateUser([FromBody] UserInsertDto userInsert)
         {
@@ -32,8 +33,9 @@ namespace Erp.Api.Web.Controllers
             return Ok("Usuario Actualizado Correctamente");
         }
 
-        [HttpDelete("Id")]
+        [HttpDelete]
         [Authorize(Policy = Policies.Admin)]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             await _userService.DeleteUser(Guid.Parse(id));
@@ -44,24 +46,34 @@ namespace Erp.Api.Web.Controllers
         [Authorize(Policy = Policies.Admin)]
         [ProducesResponseType(typeof(DataResponse<List<UserDto>>), StatusCodes.Status200OK)]
         public IActionResult GetAllUsers()
-        { 
+        {
             return Ok(_userService.GetAllUsers());
         }
 
-        [HttpGet("Id")]
+        [HttpGet]
         [Authorize(Policy = Policies.Admin)]
+        [Route("{id}")]
         [ProducesResponseType(typeof(DataResponse<UserDto>), StatusCodes.Status200OK)]
         public IActionResult GetUserById(string id)
         {
             return Ok(_userService.GetUserById(Guid.Parse(id)));
         }
 
-        [HttpGet("Name")]
+        [HttpGet]
         [Authorize(Policy = Policies.Admin)]
+        [Route("{name}")]
         [ProducesResponseType(typeof(DataResponse<UserDto>), StatusCodes.Status200OK)]
         public IActionResult GetUserByName(string name)
         {
             return Ok(_userService.GetUserByName(name));
+        }
+
+        [HttpGet]
+        [Authorize(Policy = Policies.Admin)]
+        [ProducesResponseType(typeof(DataResponse<List<SecRoleDto>>), StatusCodes.Status200OK)]
+        public IActionResult GetRoles()
+        {
+            return Ok(_userService.GetRoles());
         }
     }
 }
