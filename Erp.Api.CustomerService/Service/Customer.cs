@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
 using Erp.Api.Application.Dtos.Customers;
-using Erp.Api.CustomerService.Interfaces;
 using Erp.Api.Domain.Entities;
 using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Services;
 using System.Linq.Expressions;
 
-namespace Erp.Api.CustomerService.Application
+namespace Erp.Api.CustomerService.Service
 {
-    public class CustomerService : Service<OpCliente>, ICustomerService
+    public class Customer : Service<OpCliente>, ICustomer
     {
         private readonly IMapper _mapper;
-        public CustomerService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
+        public Customer(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
         {
             _mapper = mapper;
         }

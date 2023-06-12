@@ -9,7 +9,7 @@ namespace Erp.Api.Infraestructure.DbContexts;
 public partial class ErpDbContext : DbContext
 {
     private readonly AppSettings _appSettings;
-   
+
     public ErpDbContext(DbContextOptions<ErpDbContext> options, IOptions<AppSettings> appSettings)
         : base(options)
     {

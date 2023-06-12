@@ -29,7 +29,7 @@ namespace Erp.Api.Infrastructure.Data.Services
             }
         }
 
-        public async virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
+        public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
         {
             try
             {
@@ -48,29 +48,24 @@ namespace Erp.Api.Infrastructure.Data.Services
             return await _unitOfWork.SaveChangesAsync<TEntity>();
         }
 
-        public virtual async Task<int> Add(List<TEntity> data)
+        public virtual async Task<int> AddRange(List<TEntity> data)
         {
-            foreach (var item in data)
-            {
-                _repository.Add(item);
-            }
+            _repository.AddRange(data);
             return await _unitOfWork.SaveChangesAsync<TEntity>();
         }
 
-        public async virtual Task<int> Delete(Guid id)
+        public virtual async Task<int> Delete(Guid id)
         {
             return await Delete(await Get(id));
         }
 
-        public async virtual Task<int> Delete(List<TEntity> data)
+        public virtual async Task<int> DeleteRange(List<TEntity> data)
         {
-            foreach (var item in data)
-            {
-                _repository.Delete(item);
-            }
+            _repository.DeleteRange(data);
             return await _unitOfWork.SaveChangesAsync<TEntity>();
         }
-        public async virtual Task<int> Delete(TEntity data)
+
+        public virtual async Task<int> Delete(TEntity data)
         {
             _repository.Delete(data);
             return await _unitOfWork.SaveChangesAsync<TEntity>();
@@ -90,9 +85,15 @@ namespace Erp.Api.Infrastructure.Data.Services
         {
             return _repository.GetAll(includeProperties);
         }
-        public async virtual Task<TEntity> Get(Guid id)
+
+        public virtual async Task<TEntity> Get(Guid id)
         {
             return await _repository.Get(id);
+        }
+
+        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            return _repository.GetAll(expression, includeProperties);
         }
 
         public virtual async Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>>[] includeProperties)
@@ -113,10 +114,7 @@ namespace Erp.Api.Infrastructure.Data.Services
 
         public async Task<int> UpdateRange(List<TEntity> data)
         {
-            foreach (var item in data)
-            {
-                _repository.Update(item);
-            }
+            _repository.UpdateRange(data);
             return await _unitOfWork.SaveChangesAsync<TEntity>();
         }
 
@@ -124,5 +122,6 @@ namespace Erp.Api.Infrastructure.Data.Services
         {
             return await _repository.GetReloadAsync(id);
         }
+
     }
 }

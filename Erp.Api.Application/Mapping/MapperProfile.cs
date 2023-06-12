@@ -4,6 +4,7 @@ using Erp.Api.Application.Dtos.Customers;
 using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.Application.Dtos.Operaciones.Commons;
 using Erp.Api.Application.Dtos.Operaciones.Detalles;
+using Erp.Api.Application.Dtos.Productos;
 using Erp.Api.Application.Dtos.Security;
 using Erp.Api.Application.Dtos.Users;
 using Erp.Api.Application.Dtos.Users.Commons;
@@ -50,6 +51,9 @@ namespace Erp.Api.Application.Mapping
                 .ForMember(dest => dest.Resp, opt => opt.MapFrom(src => src.Cliente.RespNavigation.Name))
                 .ForMember(dest => dest.Detalles, opt => opt.MapFrom(src => src.BusOperacionDetalles))
                 .ForMember(dest => dest.Observaciones, opt => opt.MapFrom(src => src.BusOperacionObservacions));
+
+            CreateMap<BusOperacionDto, BusOperacionSumaryDto>()
+                .ReverseMap();
             #endregion
 
             #region Detalles
@@ -84,6 +88,17 @@ namespace Erp.Api.Application.Mapping
                 .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => src.GenderNavigation.Name))
                 .ForMember(dest => dest.RespName, opt => opt.MapFrom(src => src.RespNavigation.Name))
                 .ReverseMap();
+            #endregion
+
+            #region Productos
+            CreateMap<StockProduct, ProductoDto>()
+               .ReverseMap();
+
+            CreateMap<StockProduct, ProductoSummaryDto>()
+               .ForMember(dest => dest.IvaValue, opt => opt.MapFrom(src => src.IvaNavigation.Value))
+               .ForMember(dest => dest.RubroName, opt => opt.MapFrom(src => src.RubroNavigation.Name)) 
+               .ReverseMap();
+
             #endregion
         }
     }

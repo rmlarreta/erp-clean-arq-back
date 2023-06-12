@@ -9,7 +9,7 @@ namespace Erp.Api.Application.Dtos.Commons
         {
             ErrorResponse errorResponse = new()
             {
-                Message = context.Exception.Message +  context.Exception.InnerException ??  $"({context.Exception.InnerException!.Message})",
+                Message = context.Exception.Message + context.Exception.InnerException ?? $"({context.Exception.InnerException!.Message})",
                 ErrorCode = context.Exception.GetType().Name switch
                 {
                     "UnauthorizedAccessException" => 400,

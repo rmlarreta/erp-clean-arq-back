@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Erp.Api.Domain.Entities;
 
-namespace Erp.Api.Domain.Entities;
-
-public partial class StockProduct
+public partial class StockProduct : Entity
 {
-    public Guid Id { get; set; }
-
     public decimal Cantidad { get; set; }
 
     public string Plu { get; set; } = null!;

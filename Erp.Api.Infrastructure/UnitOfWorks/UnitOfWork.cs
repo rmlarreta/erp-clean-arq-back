@@ -49,7 +49,7 @@ namespace Erp.Api.Infrastructure.UnitOfWorks
         public void Rollback()
         {
             // Descarta todos los cambios no guardados realizados en el contexto
-            foreach (var entry in _modelContext.ChangeTracker.Entries())
+            foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry? entry in _modelContext.ChangeTracker.Entries())
             {
                 switch (entry.State)
                 {

@@ -2,7 +2,7 @@
 {
     public class BusOperacionDetalleDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public Guid OperacionId { get; set; }
 
@@ -18,7 +18,7 @@
 
         public decimal Unitario { get; set; }
 
-        public decimal IvaValue { get; set; }
+        public decimal? IvaValue { get; set; }
 
         public decimal Internos { get; set; }
 

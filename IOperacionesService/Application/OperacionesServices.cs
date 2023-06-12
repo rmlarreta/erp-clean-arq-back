@@ -16,32 +16,42 @@ namespace Erp.Api.OperacionesService.Application
         private readonly ISysEmpresaService _empresa;
         private readonly IMapper _mapper;
 
-        public OperacionesServices(IUnitOfWork unitOfWork, IDocumentosService<BusOperacionDto> documentos,ISysEmpresaService empresa, IMapper mapper) : base(unitOfWork)
+        public OperacionesServices(IUnitOfWork unitOfWork, IDocumentosService<BusOperacionDto> documentos, ISysEmpresaService empresa, IMapper mapper) : base(unitOfWork)
         {
             _documentos = documentos;
             _empresa = empresa;
             _mapper = mapper;
         }
 
+        public async Task<List<BusOperacionSumaryDto>> GetAllPresupuestos()
+        {
+            List<BusOperacionDto>? documento = await _documentos.ListadoDocumentos("PRESUPUESTO");
+            return _mapper.Map<List<BusOperacionSumaryDto>>(documento);
+        }
+
         public async Task<BusOperacionSumaryDto> NuevoPresupuesto()
         {
-            var presupuesto = _documentos.GenerarDocumento("PRESUPUESTO");
-            var op = await presupuesto.Emitir();
+            Models.OperacionTemplate<BusOperacionDto>? presupuesto = _documentos.GenerarDocumento("PRESUPUESTO");
+            Guid op = await presupuesto.Emitir();
             return await GetOperacion(op);
         }
 
-        private async Task<BusOperacionSumaryDto> GetOperacion(Guid id)
+        public async Task<BusOperacionSumaryDto> GetOperacion(Guid id)
         {
             Expression<Func<BusOperacion, object>>[] includeProperties = new Expression<Func<BusOperacion, object>>[]
             {
-            o => o.Cliente,
-            o => o.BusOperacionDetalles,
-            o => o.BusOperacionObservacions
+              o => o.Cliente,
+              o => o.Cliente.RespNavigation,
+              o => o.BusOperacionDetalles,
+              o => o.BusOperacionObservacions,
+              o => o.TipoDoc,
+              o => o.Estado
            };
-            var operacion = _mapper.Map<BusOperacionSumaryDto>(await Get(id, includeProperties));
+            BusOperacionSumaryDto? operacion = _mapper.Map<BusOperacionSumaryDto>(await Get(id, includeProperties));
             operacion.Empresa = await _empresa.GetEmpresas();
-            return operacion; 
+            return operacion;
         }
+
     }
 
 }

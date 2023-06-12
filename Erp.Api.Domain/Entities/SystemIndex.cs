@@ -1,7 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class SystemIndex :Entity
-{ 
+public partial class SystemIndex : Entity
+{
     public int Remito { get; set; }
 
     public int Presupuesto { get; set; }
@@ -10,7 +10,7 @@ public partial class SystemIndex :Entity
 
     public int Orden { get; set; }
 
-    public bool Production { get; set; } 
+    public bool Production { get; set; }
 
     public decimal Interes { get; set; }
 }

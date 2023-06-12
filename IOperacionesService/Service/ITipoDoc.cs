@@ -1,8 +1,8 @@
 ﻿using Erp.Api.Application.Dtos.Operaciones.Commons;
 
-namespace Erp.Api.OperacionesService.Interfaces
+namespace Erp.Api.OperacionesService.Service
 {
-    public interface ITipoDocService
+    public interface ITipoDoc
     {
         Task<TipoOperacionDto> GetByName(string name);
     }

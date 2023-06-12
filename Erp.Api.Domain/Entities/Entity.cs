@@ -10,19 +10,14 @@ namespace Erp.Api.Domain.Entities
         [Key]
         public Guid Id
         {
-            get
-            {
+            get =>
 
                 //if (_id == default || _id == Guid.Empty)
                 //    _id = Guid.NewGuid();
-                return _id;
-            }
+                _id;
 
 
-            set
-            {
-                _id = value;
-            }
+            set => _id = value;
         }
     }
 }

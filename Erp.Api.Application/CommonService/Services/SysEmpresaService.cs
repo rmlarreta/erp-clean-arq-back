@@ -18,7 +18,7 @@ namespace Erp.Api.Application.CommonService.Services
 
         public async Task<SysEmpresaDto> GetEmpresas()
         {
-            return _mapper.Map<SysEmpresaDto>(await GetAll().OrderBy(x=>x.Razon).FirstOrDefaultAsync());
+            return _mapper.Map<SysEmpresaDto>(await GetAll().OrderBy(x => x.Razon).FirstOrDefaultAsync());
         }
     }
 }

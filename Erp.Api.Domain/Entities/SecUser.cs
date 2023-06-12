@@ -1,7 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
 public partial class SecUser : Entity
-{ 
+{
     public string UserName { get; set; } = null!;
 
     public string RealName { get; set; } = null!;

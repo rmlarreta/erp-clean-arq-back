@@ -1,9 +1,9 @@
 ﻿using Erp.Api.Application.Dtos.Operaciones.Commons;
 
-namespace Erp.Api.OperacionesService.Interfaces
+namespace Erp.Api.OperacionesService.Service
 {
-    public interface IEstadoService
+    public interface IEstado
     {
         Task<BusEstadoDto> GetByName(string name);
     }
-} 
+}

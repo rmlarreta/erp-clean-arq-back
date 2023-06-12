@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Erp.Api.Domain.Entities;
 
-namespace Erp.Api.Domain.Entities;
-
-public partial class BusOperacionDetalle
+public partial class BusOperacionDetalle : Entity
 {
-    public Guid Id { get; set; }
-
     public Guid OperacionId { get; set; }
 
     public decimal Cantidad { get; set; }

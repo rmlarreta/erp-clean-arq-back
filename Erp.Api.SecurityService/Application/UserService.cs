@@ -95,12 +95,12 @@ namespace Erp.Api.SecurityService.Application
 
         public async Task UpdateUser(UserUpdateDto user)
         {
-            SecUser userToUpdate= await Get(user.Id);
+            SecUser userToUpdate = await Get(user.Id);
             userToUpdate.EndOfLife = user.EndOfLife;
             userToUpdate.UserName = user.UserName;
-            userToUpdate.Role=user.Role;
+            userToUpdate.Role = user.Role;
             userToUpdate.Active = user.Active;
-            userToUpdate.RealName = user.RealName; 
+            userToUpdate.RealName = user.RealName;
             await Update(userToUpdate);
         }
 

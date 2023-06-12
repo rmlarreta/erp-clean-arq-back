@@ -1,7 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
 public partial class OpCliente : Entity
-{ 
+{
     public string Cui { get; set; } = null!;
 
     public Guid Resp { get; set; }

@@ -3,15 +3,14 @@ using Erp.Api.Application.Dtos.Operaciones.Commons;
 using Erp.Api.Domain.Entities;
 using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Services;
-using Erp.Api.OperacionesService.Interfaces;
 using System.Linq.Expressions;
 
-namespace Erp.Api.OperacionesService.Application
+namespace Erp.Api.OperacionesService.Service
 {
-    public class TipoDocService : Service<BusOperacionTipo>, ITipoDocService
+    public class TipoDoc : Service<BusOperacionTipo>, ITipoDoc
     {
         private readonly IMapper _mapper;
-        public TipoDocService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
+        public TipoDoc(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
         {
             _mapper = mapper;
         }
