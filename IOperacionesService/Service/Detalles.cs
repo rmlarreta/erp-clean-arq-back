@@ -15,10 +15,20 @@ namespace Erp.Api.OperacionesService.Service
             _mapper = mapper;
         }
 
+        public async Task DeleteDetalle(Guid guid)
+        {
+           await Delete(guid);
+        }
+
         public async Task InsertDetalles(List<BusOperacionDetalleDto> lista)
         {
             foreach(var item in lista) item.Id= Guid.NewGuid();
             await AddRange(_mapper.Map<List<BusOperacionDetalle>>(lista));
+        }
+
+        public async Task UpdateDetalle(BusOperacionDetalleDto detalle)
+        {
+          await Update(_mapper.Map<BusOperacionDetalle>(detalle));
         }
     }
 }

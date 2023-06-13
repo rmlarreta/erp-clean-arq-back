@@ -4,6 +4,6 @@ namespace Erp.Api.OperacionesService.Service
 {
     public interface IEstado
     {
-        Task<BusEstadoDto> GetByName(string name);
+        Task<BusEstadoDto> GetByName(string name); 
     }
 }

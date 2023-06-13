@@ -29,5 +29,29 @@ namespace Erp.Api.Web.Controllers
 
             return Ok(productos);
         }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> InsertProducto([FromBody] ProductoDto producto)
+        {
+            await _productos.InsertProducto(producto);
+            return CreatedAtAction(nameof(GetAllProductos), null);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteProducto(Guid id)
+        {
+            await _productos.DeleteProducto(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateProducto([FromBody] ProductoDto producto)
+        {
+            await _productos.UpdateProducto(producto);
+            return Ok();
+        }
     }
 }

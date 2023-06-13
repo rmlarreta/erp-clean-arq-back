@@ -16,6 +16,16 @@ namespace Erp.Api.ProductosService.Service
             _mapper = mapper;
         }
 
+        public async Task DeleteProducto(Guid guid)
+        {
+            await Delete(guid);
+        }
+
+        public async Task InsertProducto(ProductoDto producto)
+        {
+            await Add(_mapper.Map<StockProduct>(producto));
+        }
+
         public async Task<List<ProductoSummaryDto>> Listado()
         {
             Expression<Func<StockProduct, object>>[] includeProperties = new Expression<Func<StockProduct, object>>[]
@@ -25,6 +35,11 @@ namespace Erp.Api.ProductosService.Service
            };
             List<StockProduct> data = base.GetAll(includeProperties).ToList();
             return await Task.FromResult(_mapper.Map<List<ProductoSummaryDto>>(data));
+        }
+
+        public async Task UpdateProducto(ProductoDto producto)
+        {
+            await Update(_mapper.Map<StockProduct>(producto));
         }
     }
 }

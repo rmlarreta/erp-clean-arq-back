@@ -1,7 +1,7 @@
 ﻿using Erp.Api.Application.Dtos.Commons;
 using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.Application.Dtos.Operaciones.Detalles;
-using Erp.Api.OperacionesService.Interfaces;
+using Erp.Api.OperacionesService.BusinessLogic.Interfaces;
 using Erp.Api.OperacionesService.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +9,12 @@ namespace Erp.Api.Web.Controllers
 {
     public class PresupuestosController : CommonController
     {
-        private readonly IOperacionesServices _operacionesService;
+        private readonly IOperacionesBusiness _operaciones;
         private readonly IDetalles _detallesService;
 
-        public PresupuestosController(IOperacionesServices operacionesService, IDetalles detallesService)
+        public PresupuestosController(IOperacionesBusiness operaciones, IDetalles detallesService)
         {
-            _operacionesService = operacionesService;
+            _operaciones = operaciones;
             _detallesService = detallesService;
         }
 
@@ -22,14 +22,14 @@ namespace Erp.Api.Web.Controllers
         [ProducesResponseType(typeof(DataResponse<BusOperacionSumaryDto>), StatusCodes.Status201Created)]
         public async Task<IActionResult> NuevoPresupuesto()
         {
-            return Ok(await _operacionesService.NuevoPresupuesto());
+            return Ok(await _operaciones.NuevaOperacion("PRESUPUESTO"));
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(DataResponse<List<BusOperacionSumaryDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllPresupuestos()
         {
-            List<BusOperacionSumaryDto>? presupuestos = await _operacionesService.GetAllPresupuestos();
+            List<BusOperacionSumaryDto>? presupuestos = await _operaciones.GetAllOperaciones("PRESUPUESTO");
 
             if (presupuestos == null)
             {
@@ -43,7 +43,7 @@ namespace Erp.Api.Web.Controllers
         [ProducesResponseType(typeof(DataResponse<BusOperacionSumaryDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPresupuestoById(Guid guid)
         {
-            BusOperacionSumaryDto? presupuesto = await _operacionesService.GetOperacion(guid);
+            BusOperacionSumaryDto? presupuesto = await _operaciones.GetOperacion("PRESUPUESTO", guid);
 
             if (presupuesto == null)
             {
@@ -58,6 +58,30 @@ namespace Erp.Api.Web.Controllers
         public async Task<IActionResult> InsertDetalles(List<BusOperacionDetalleDto> detalles)
         {
             await _detallesService.InsertDetalles(detalles);
+            return Ok();
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateDetalle(BusOperacionDetalleDto detalle)
+        {
+            await _detallesService.UpdateDetalle(detalle);
+            return Ok();
+        }
+
+        [HttpDelete("{guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteDetalle(Guid guid)
+        {
+            await _detallesService.DeleteDetalle(guid);
+            return Ok();
+        }
+
+        [HttpDelete("{guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeletePresupuesto(Guid guid)
+        {
+            await _operaciones.DeleteOperacion(guid);
             return Ok();
         }
     }

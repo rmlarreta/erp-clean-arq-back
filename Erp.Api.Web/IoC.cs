@@ -1,6 +1,5 @@
 ﻿using Erp.Api.Application.CommonService.Interfaces;
 using Erp.Api.Application.CommonService.Services;
-using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.CustomerService.Service;
 using Erp.Api.Domain.Entities;
 using Erp.Api.Domain.Repositories;
@@ -9,17 +8,12 @@ using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Repositories;
 using Erp.Api.Infrastructure.Data.Services;
 using Erp.Api.Infrastructure.UnitOfWorks;
-using Erp.Api.OperacionesService.Application;
-using Erp.Api.OperacionesService.Factories;
-using Erp.Api.OperacionesService.Interfaces;
-using Erp.Api.OperacionesService.Models;
+using Erp.Api.OperacionesService.BusinessLogic.Application;
+using Erp.Api.OperacionesService.BusinessLogic.Interfaces;
+using Erp.Api.OperacionesService.ConcreteFactories;
 using Erp.Api.OperacionesService.Service;
-using Erp.Api.ProductosService;
 using Erp.Api.ProductosService.Service;
 using Erp.Api.SecurityService.Interfaces;
-using IOperacionesService.Application;
-using IOperacionesService.Factory;
-using IOperacionesService.Interfaces;
 
 namespace Erp.Api.Web
 {
@@ -28,10 +22,8 @@ namespace Erp.Api.Web
         public static void AddServices(this IServiceCollection services)
         {
             #region Factory
-            services.AddScoped<DocumentosFactory>();
-            services.AddScoped(typeof(Presupuesto<>));
-            services.AddScoped<OperacionTemplate<BusOperacion>, Presupuesto<BusOperacion>>();
-            services.AddScoped<OperacionTemplate<BusOperacionDto>, Presupuesto<BusOperacionDto>>();
+
+            services.AddScoped<Presupuesto>();
             #endregion
 
             #region Commons
@@ -39,16 +31,20 @@ namespace Erp.Api.Web
             services.AddScoped<ISysEmpresaService, SysEmpresaService>();
             #endregion
 
+
+
             #region Service
             services.AddScoped<ISecurityService, Erp.Api.SecurityService.Application.SecurityService>();
             services.AddScoped<IUserService, Erp.Api.SecurityService.Application.UserService>();
-            services.AddScoped<IOperacionesServices, OperacionesServices>();
-            services.AddScoped(typeof(IDocumentosService<>), typeof(DocumentosService<>));
+            services.AddScoped<IOperacionesBusiness, OperacionesBusiness>();
+            services.AddScoped<IOperaciones, Presupuesto>();
             services.AddScoped<IDetalles, Detalles>();
             services.AddScoped<IEstado, Estado>();
             services.AddScoped<ITipoDoc, TipoDoc>();
             services.AddScoped<ICustomer, Customer>();
             services.AddScoped<IProductos, Productos>();
+            services.AddScoped<IRubros, Rubros>();
+            services.AddScoped<IProductosIva, ProductosIva>();
             #endregion Service
 
             #region Repositories

@@ -1,8 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class StockRubro
+public partial class StockRubro : Entity
 {
-    public Guid Id { get; set; }
 
     public string Name { get; set; } = null!;
 

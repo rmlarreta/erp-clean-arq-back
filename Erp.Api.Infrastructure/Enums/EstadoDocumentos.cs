@@ -1,8 +1,8 @@
-﻿namespace Aramis.Api.Repository.Enums
+﻿namespace Erp.Api.Infrastructure.Enums
 {
     public static class EstadoDocumentos
     {
-        public static class Estado
+        public static class Estados
         {
             public static EstadoInfo PAGADO { get; } = new EstadoInfo("PAGADO");
             public static EstadoInfo ABIERTO { get; } = new EstadoInfo("ABIERTO");

@@ -96,8 +96,13 @@ namespace Erp.Api.Application.Mapping
 
             CreateMap<StockProduct, ProductoSummaryDto>()
                .ForMember(dest => dest.IvaValue, opt => opt.MapFrom(src => src.IvaNavigation.Value))
-               .ForMember(dest => dest.RubroName, opt => opt.MapFrom(src => src.RubroNavigation.Name)) 
+               .ForMember(dest => dest.RubroName, opt => opt.MapFrom(src => src.RubroNavigation.Name))
                .ReverseMap();
+
+            CreateMap<StockRubro, RubroDto>()
+                .ReverseMap();
+            CreateMap<StockIva, IvaDto>()
+                .ReverseMap();
 
             #endregion
         }

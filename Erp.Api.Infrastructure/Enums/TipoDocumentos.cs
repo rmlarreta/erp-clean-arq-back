@@ -1,4 +1,4 @@
-﻿namespace Aramis.Api.Repository.Enumss
+﻿namespace Erp.Api.Infrastructure.Enums
 {
     public static class TipoDocumentos
     {
