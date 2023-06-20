@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Erp.Api.Application\Erp.Api.Application.csproj" />
     <ProjectReference Include="..\Erp.Api.CustomerService\Erp.Api.CustomerService.csproj" />
     <ProjectReference Include="..\Erp.Api.SecurityService\Erp.Api.SecurityService.csproj" />

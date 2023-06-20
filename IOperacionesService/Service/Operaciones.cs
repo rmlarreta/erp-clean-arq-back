@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Erp.Api.Application.CommonService.Interfaces;
 using Erp.Api.Application.Dtos.Customers;
 using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.Application.Dtos.Operaciones.Commons;
@@ -15,22 +16,24 @@ using static Erp.Api.Infrastructure.Enums.TipoDocumentos;
 
 namespace Erp.Api.OperacionesService.Service
 {
-    public abstract class Operaciones : Service<BusOperacion>, IOperaciones
+    public abstract partial class Operaciones : Service<BusOperacion>, IOperaciones
     {
         private readonly IRepository<SystemIndex> _indexs;
+        private readonly ISysEmpresaService _empresa;
         private readonly ISecurityService _security;
         private readonly ICustomer _customer;
         private readonly IEstado _estado;
         private readonly ITipoDoc _tipos;
         private readonly IMapper _mapper;
 
-        protected Operaciones(IUnitOfWork unitOfWork, ISecurityService security, ICustomer customer, IEstado estado, ITipoDoc tipoDoc, IMapper mapper) : base(unitOfWork)
+        protected Operaciones(IUnitOfWork unitOfWork, ISysEmpresaService empresa, ISecurityService security, ICustomer customer, IEstado estado, ITipoDoc tipos, IMapper mapper) : base(unitOfWork)
         {
             _indexs = _unitOfWork.GetRepository<SystemIndex>();
+            _empresa = empresa;
             _security = security;
             _customer = customer;
             _estado = estado;
-            _tipos = tipoDoc;
+            _tipos = tipos;
             _mapper = mapper;
         }
 
@@ -38,7 +41,7 @@ namespace Erp.Api.OperacionesService.Service
         {
             Expression<Func<BusOperacion, bool>> expression = t => t.TipoDoc.Name == TipoDocumento.PRESUPUESTO.Name && t.Id == id;
             Expression<Func<BusOperacion, object>>[] includeProperties = new Expression<Func<BusOperacion, object>>[]
-            { 
+            {
               o => o.BusOperacionDetalles,
               o => o.BusOperacionObservacions
            };
@@ -93,13 +96,13 @@ namespace Erp.Api.OperacionesService.Service
             {
                 Operador = _security.GetUserAuthenticated(),
                 CodAut = "",
-                ClienteId = cliente.Id,
-                EstadoId = await EstadoDelDocumento(),
+                ClienteId = (Guid)cliente.Id!,
+                EstadoId = EstadoDelDocumento().Result.Id,
                 Numero = numeroLetra.Numero,
                 Fecha = DateTime.Now,
                 Razon = cliente.Razon,
                 Pos = 0,
-                TipoDocId = await TipoDelDocunento(),
+                TipoDocId = TipoDelDocunento().Result.Id,
                 Vence = DateTime.Now,
                 Id = Guid.NewGuid()
             };
@@ -111,16 +114,16 @@ namespace Erp.Api.OperacionesService.Service
             return await _customer.GetByCui("0");
         }
 
-        protected virtual async Task<Guid> EstadoDelDocumento()
+        protected virtual async Task<BusEstadoDto> EstadoDelDocumento()
         {
             BusEstadoDto estado = await _estado.GetByName(Estados.ABIERTO.Name);
-            return estado.Id;
+            return estado;
         }
 
-        protected virtual async Task<Guid> TipoDelDocunento()
+        protected virtual async Task<TipoOperacionDto> TipoDelDocunento()
         {
             TipoOperacionDto tipo = await _tipos.GetByName(TipoDocumento.PRESUPUESTO.Name);
-            return tipo.Id;
+            return tipo;
         }
 
         protected virtual async Task<NumeroLetra> NumeroLetraDocumento()
@@ -135,7 +138,12 @@ namespace Erp.Api.OperacionesService.Service
             return numeroLetra;
         }
 
-        public abstract Task Imprimir();
+        async Task IOperaciones.Update(BusOperacion operacion)
+        {
+            operacion.Operador = _security.GetUserAuthenticated();
+            await Update(operacion);
+        }
+
         #region Clases Privadas
         protected class NumeroLetra
         {
@@ -143,7 +151,6 @@ namespace Erp.Api.OperacionesService.Service
             public int Numero { get; set; }
         }
         #endregion
-
 
     }
 }

@@ -7,9 +7,9 @@ using Erp.Api.SecurityService.Interfaces;
 
 namespace Erp.Api.OperacionesService.ConcreteFactories
 {
-    public class Presupuesto : Operaciones
+    public class ConcreteOperacion : Operaciones
     {
-        public Presupuesto(IUnitOfWork unitOfWork, ISysEmpresaService empresa, ISecurityService security, ICustomer customer, IEstado estado, ITipoDoc tipos, IMapper mapper) : base(unitOfWork, empresa, security, customer, estado, tipos, mapper)
+        public ConcreteOperacion(IUnitOfWork unitOfWork, ISysEmpresaService empresa, ISecurityService security, ICustomer customer, IEstado estado, ITipoDoc tipos, IMapper mapper) : base(unitOfWork, empresa, security, customer, estado, tipos, mapper)
         {
         }
     }

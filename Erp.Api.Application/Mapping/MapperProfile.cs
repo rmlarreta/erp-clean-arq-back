@@ -83,6 +83,10 @@ namespace Erp.Api.Application.Mapping
             #endregion
 
             #region Customers
+
+            CreateMap<OpCliente, OpCustomerInsert>() 
+               .ReverseMap();
+
             CreateMap<OpCliente, OpCustomerDto>()
                 .ForMember(dest => dest.PaisName, opt => opt.MapFrom(src => src.PaisNavigation.Name))
                 .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => src.GenderNavigation.Name))

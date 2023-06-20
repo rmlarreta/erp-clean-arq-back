@@ -1,4 +1,5 @@
 ﻿using Erp.Api.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Api.OperacionesService.Service
 {
@@ -8,6 +9,7 @@ namespace Erp.Api.OperacionesService.Service
         public abstract Task<List<BusOperacion>> GetAllOperaciones();
         public abstract Task Eliminar(Guid id);
         public abstract Task<BusOperacion> NuevaOperacion(BusOperacion? operacion);
-        public abstract Task Imprimir();
+        public abstract Task<FileStreamResult> Imprimir(Guid guid);
+        public abstract Task Update(BusOperacion operacion);
     }
 }

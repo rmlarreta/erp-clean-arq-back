@@ -24,6 +24,7 @@ namespace Erp.Api.Web
             #region Factory
 
             services.AddScoped<Presupuesto>();
+            services.AddScoped<ConcreteOperacion>();
             #endregion
 
             #region Commons
@@ -36,12 +37,12 @@ namespace Erp.Api.Web
             #region Service
             services.AddScoped<ISecurityService, Erp.Api.SecurityService.Application.SecurityService>();
             services.AddScoped<IUserService, Erp.Api.SecurityService.Application.UserService>();
-            services.AddScoped<IOperacionesBusiness, OperacionesBusiness>();
-            services.AddScoped<IOperaciones, Presupuesto>();
+            services.AddScoped<IOperacionesBusiness, OperacionesBusiness>(); 
             services.AddScoped<IDetalles, Detalles>();
             services.AddScoped<IEstado, Estado>();
             services.AddScoped<ITipoDoc, TipoDoc>();
             services.AddScoped<ICustomer, Customer>();
+            services.AddScoped<ICommons, Commons>();
             services.AddScoped<IProductos, Productos>();
             services.AddScoped<IRubros, Rubros>();
             services.AddScoped<IProductosIva, ProductosIva>();

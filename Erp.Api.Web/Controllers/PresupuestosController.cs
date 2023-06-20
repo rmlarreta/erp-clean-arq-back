@@ -84,5 +84,20 @@ namespace Erp.Api.Web.Controllers
             await _operaciones.DeleteOperacion(guid);
             return Ok();
         }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdatePresupuesto(BusOperacionInsert operacion)
+        {
+            await _operaciones.UpdateOperacion(operacion);
+            return Ok();
+        }
+
+        [HttpGet("{guid}")]
+        [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Imprimir(Guid guid)
+        {
+            return await _operaciones.Imprimir(guid);
+        }
     }
 }

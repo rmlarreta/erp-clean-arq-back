@@ -31,7 +31,7 @@ namespace Erp.Api.Web.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(DataResponse<>),StatusCodes.Status201Created)]
         public async Task<IActionResult> InsertProducto([FromBody] ProductoDto producto)
         {
             await _productos.InsertProducto(producto);
@@ -39,7 +39,7 @@ namespace Erp.Api.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DataResponse<>),StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteProducto(Guid id)
         {
             await _productos.DeleteProducto(id);

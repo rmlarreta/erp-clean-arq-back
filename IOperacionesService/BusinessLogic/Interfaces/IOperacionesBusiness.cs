@@ -1,4 +1,5 @@
 ﻿using Erp.Api.Application.Dtos.Operaciones;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Api.OperacionesService.BusinessLogic.Interfaces
 {
@@ -8,5 +9,7 @@ namespace Erp.Api.OperacionesService.BusinessLogic.Interfaces
         Task<List<BusOperacionSumaryDto>> GetAllOperaciones(string tipoOperacion);
         Task<BusOperacionSumaryDto> GetOperacion(string tipoOperacion, Guid guid);
         Task DeleteOperacion(Guid guid);
+        Task UpdateOperacion(BusOperacionInsert operacion);
+        Task<FileStreamResult> Imprimir(Guid guid);
     }
 }

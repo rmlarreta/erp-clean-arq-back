@@ -14,6 +14,25 @@ namespace Erp.Api.CustomerService.Service
         {
             _mapper = mapper;
         }
+
+        public async Task DeleteCliente(Guid id)
+        {
+            var customer = await GetById(id);
+            if (customer.Cui == "0") throw new Exception("Este Cliente no es eliminable");
+            await Delete(id);
+        }
+
+        public async Task<List<OpCustomerDto>> GetAllClientes()
+        {
+            Expression<Func<OpCliente, object>>[] includeProperties = new Expression<Func<OpCliente, object>>[]
+              {
+            c => c.RespNavigation,
+            c => c.GenderNavigation,
+            c => c.PaisNavigation
+             };
+            return await Task.FromResult(_mapper.Map<List<OpCustomerDto>>(base.GetAll(includeProperties)));
+        }
+
         public async Task<OpCustomerDto> GetByCui(string cui)
         {
             Expression<Func<OpCliente, bool>> expression = c => c.Cui == cui;
@@ -37,6 +56,18 @@ namespace Erp.Api.CustomerService.Service
           };
             OpCliente cliente = await base.Get(id, includeProperties);
             return _mapper.Map<OpCustomerDto>(cliente);
+        }
+
+        public async Task InsertCliente(OpCustomerInsert model)
+        {
+            model.Id = Guid.NewGuid();
+            await Add(_mapper.Map<OpCliente>(model));
+        }
+
+        public async Task UpdateCliente(OpCustomerInsert model)
+        {
+            if (await AnyAsync(x => x.Cui == "0" && x.Id == model.Id)) throw new Exception("Este Cliente no es editable");
+            await Update(_mapper.Map<OpCliente>(model));
         }
     }
 }

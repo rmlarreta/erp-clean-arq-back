@@ -52,7 +52,7 @@ namespace Erp.Api.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DataResponse<>),StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteRubro(Guid id)
         {
             await _rubros.DeleteRubro(id);

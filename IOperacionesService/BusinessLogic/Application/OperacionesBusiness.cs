@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Erp.Api.Application.Dtos.Operaciones;
+using Erp.Api.Domain.Entities;
 using Erp.Api.OperacionesService.BusinessLogic.Interfaces;
 using Erp.Api.OperacionesService.ConcreteFactories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using static Erp.Api.Infrastructure.Enums.TipoDocumentos;
 
 namespace Erp.Api.OperacionesService.BusinessLogic.Application
 {
@@ -40,6 +43,17 @@ namespace Erp.Api.OperacionesService.BusinessLogic.Application
             };
         }
 
+        public async Task<FileStreamResult> Imprimir(Guid guid)
+        {
+            var operacion = await _serviceProvider.GetRequiredService<ConcreteOperacion>().GetOperacion(guid);
+
+            return operacion.TipoDoc.Name switch
+            {
+                "PRESUPUESTO" => await GetPresupuesto().Imprimir(guid),
+                _ => throw new ArgumentException("Tipo de operación no válido"),
+            };
+        }
+
         public async Task<BusOperacionSumaryDto> NuevaOperacion(string tipoOperacion)
         {
             return tipoOperacion switch
@@ -49,12 +63,28 @@ namespace Erp.Api.OperacionesService.BusinessLogic.Application
             };
         }
 
+        public async Task UpdateOperacion(BusOperacionInsert operacion)
+        {
+
+            ConcreteOperacion operacionBase = _serviceProvider.GetRequiredService<ConcreteOperacion>();
+            if (await operacionBase.AnyAsync(
+            x => x.TipoDoc.Name == TipoDocumento.PRESUPUESTO.Name &&
+            x.TipoDocId == operacion.TipoDocId &&
+            x.EstadoId == operacion.EstadoId)) // Es un presupuesto que no cambia de estado ni tipo
+            {
+                await GetPresupuesto().Update(_mapper.Map<BusOperacion>(operacion));
+            }
+
+            //si no presupuesto derivar para obtener base
+            //si presupuesto modificar libremente mientras no cambie el estado
+        }
+
         #region Presupuestos
         private Presupuesto GetPresupuesto()
         {
-            var presupuesto = _serviceProvider.GetRequiredService<Presupuesto>();
+            Presupuesto presupuesto = _serviceProvider.GetRequiredService<Presupuesto>();
             return presupuesto;
         }
-        #endregion
+        #endregion 
     }
 }
