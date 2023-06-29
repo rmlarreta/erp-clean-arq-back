@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class BusOperacionPago
+public partial class BusOperacionPago : Entity
 {
-    public Guid Id { get; set; }
-
     public Guid OperacionId { get; set; }
 
     public Guid ReciboId { get; set; }

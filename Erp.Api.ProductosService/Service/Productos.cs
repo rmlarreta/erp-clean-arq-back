@@ -21,6 +21,11 @@ namespace Erp.Api.ProductosService.Service
             await Delete(guid);
         }
 
+        public async Task<ProductoDto> GetById(Guid id)
+        {
+            return await Task.FromResult(_mapper.Map<ProductoDto>(Get(id)));
+        }
+
         public async Task InsertProducto(ProductoDto producto)
         {
             await Add(_mapper.Map<StockProduct>(producto));
@@ -40,6 +45,11 @@ namespace Erp.Api.ProductosService.Service
         public async Task UpdateProducto(ProductoDto producto)
         {
             await Update(_mapper.Map<StockProduct>(producto));
+        }
+
+        public async Task UpdateRangeProducto(List<ProductoDto> productos)
+        {
+            await UpdateRange(_mapper.Map<List<StockProduct>>(productos));
         }
     }
 }

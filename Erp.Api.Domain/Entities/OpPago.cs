@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class OpPago
+public partial class OpPago : Entity
 {
-    public Guid Id { get; set; }
-
     public DateTime Fecha { get; set; }
 
     public Guid Tipo { get; set; }

@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class CobPo
-{
-    public Guid Id { get; set; }
-
+public partial class CobPo :Entity
+{ 
     public string Name { get; set; } = null!;
 
     public string? DeviceId { get; set; }

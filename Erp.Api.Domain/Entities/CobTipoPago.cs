@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class CobTipoPago
-{
-    public Guid Id { get; set; }
-
+public partial class CobTipoPago : Entity
+{ 
     public string Name { get; set; } = null!;
 
     public Guid? CuentaId { get; set; }

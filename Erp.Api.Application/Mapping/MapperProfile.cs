@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Erp.Api.Application.Dtos.Commons;
 using Erp.Api.Application.Dtos.Customers;
+using Erp.Api.Application.Dtos.Flow;
 using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.Application.Dtos.Operaciones.Commons;
 using Erp.Api.Application.Dtos.Operaciones.Detalles;
@@ -108,6 +109,24 @@ namespace Erp.Api.Application.Mapping
             CreateMap<StockIva, IvaDto>()
                 .ReverseMap();
 
+            #endregion
+
+            #region Cobranzas
+            CreateMap<CobRecibo, CobReciboInsert>()
+                .ForMember(dest => dest.Detalles, opt => opt.MapFrom(src => src.CobReciboDetalles))
+                .ReverseMap();
+
+            CreateMap<CobReciboDetalle, CobReciboDetallesInsert>() 
+               .ReverseMap();
+
+            CreateMap<CobTipoPago, CobTipoPagoDto>()
+                .ReverseMap();
+
+            CreateMap<CobPo, PosDto>()
+              .ReverseMap();
+
+            CreateMap<BusOperacionPago, BusOperacionPagoDto>()
+                .ReverseMap();
             #endregion
         }
     }

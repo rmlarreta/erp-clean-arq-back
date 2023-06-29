@@ -4,6 +4,8 @@ using Erp.Api.CustomerService.Service;
 using Erp.Api.Domain.Entities;
 using Erp.Api.Domain.Repositories;
 using Erp.Api.Domain.Services;
+using Erp.Api.FlowService.Business;
+using Erp.Api.FlowService.Service;
 using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Repositories;
 using Erp.Api.Infrastructure.Data.Services;
@@ -22,7 +24,7 @@ namespace Erp.Api.Web
         public static void AddServices(this IServiceCollection services)
         {
             #region Factory
-
+            services.AddScoped<Remito>();
             services.AddScoped<Presupuesto>();
             services.AddScoped<ConcreteOperacion>();
             #endregion
@@ -46,6 +48,10 @@ namespace Erp.Api.Web
             services.AddScoped<IProductos, Productos>();
             services.AddScoped<IRubros, Rubros>();
             services.AddScoped<IProductosIva, ProductosIva>();
+            services.AddScoped<IRecibo, Recibo>();
+            services.AddScoped<ITipoPagos, TipoPagos>();
+            services.AddScoped<IPos, Pos>();
+            services.AddScoped<IImputaciones, Imputaciones>();
             #endregion Service
 
             #region Repositories

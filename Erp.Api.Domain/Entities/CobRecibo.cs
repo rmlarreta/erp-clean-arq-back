@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class CobRecibo
+public partial class CobRecibo : Entity
 {
-    public Guid Id { get; set; }
-
     public Guid ClienteId { get; set; }
 
     public DateTime Fecha { get; set; }

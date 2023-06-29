@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Erp.Api.Application.CommonService.Interfaces;
+using Erp.Api.Application.Dtos.Commons;
 using Erp.Api.Application.Dtos.Customers;
 using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.Application.Dtos.Operaciones.Commons;
@@ -18,15 +19,21 @@ namespace Erp.Api.OperacionesService.Service
 {
     public abstract partial class Operaciones : Service<BusOperacion>, IOperaciones
     {
-        private readonly IRepository<SystemIndex> _indexs;
+        protected readonly IRepository<SystemIndex> _indexs;
         private readonly ISysEmpresaService _empresa;
         private readonly ISecurityService _security;
         private readonly ICustomer _customer;
-        private readonly IEstado _estado;
-        private readonly ITipoDoc _tipos;
-        private readonly IMapper _mapper;
+        protected readonly IEstado _estado;
+        protected readonly ITipoDoc _tipos;
+        protected readonly IMapper _mapper;
 
-        protected Operaciones(IUnitOfWork unitOfWork, ISysEmpresaService empresa, ISecurityService security, ICustomer customer, IEstado estado, ITipoDoc tipos, IMapper mapper) : base(unitOfWork)
+        protected Operaciones(IUnitOfWork unitOfWork,
+            ISysEmpresaService empresa,
+            ISecurityService security,
+            ICustomer customer,
+            IEstado estado,
+            ITipoDoc tipos,
+            IMapper mapper) : base(unitOfWork)
         {
             _indexs = _unitOfWork.GetRepository<SystemIndex>();
             _empresa = empresa;
@@ -37,7 +44,7 @@ namespace Erp.Api.OperacionesService.Service
             _mapper = mapper;
         }
 
-        public virtual async Task Eliminar(Guid id)
+        public virtual async Task EliminarOperacion(Guid id)
         {
             Expression<Func<BusOperacion, bool>> expression = t => t.TipoDoc.Name == TipoDocumento.PRESUPUESTO.Name && t.Id == id;
             Expression<Func<BusOperacion, object>>[] includeProperties = new Expression<Func<BusOperacion, object>>[]
@@ -81,7 +88,7 @@ namespace Erp.Api.OperacionesService.Service
             return await GetAll(expression, includeProperties).ToListAsync();
         }
 
-        public virtual async Task<BusOperacion> NuevaOperacion(BusOperacion? operacion)
+        public virtual async Task<BusOperacion> NuevaOperacion(Request? request)
         {
             BusOperacionInsert? nDocumento = await PrepararDocumento();
             await Add(_mapper.Map<BusOperacion>(nDocumento));
@@ -138,11 +145,11 @@ namespace Erp.Api.OperacionesService.Service
             return numeroLetra;
         }
 
-        async Task IOperaciones.Update(BusOperacion operacion)
+        public virtual async Task UpdateOperacion(BusOperacion operacion)
         {
             operacion.Operador = _security.GetUserAuthenticated();
             await Update(operacion);
-        }
+        } 
 
         #region Clases Privadas
         protected class NumeroLetra

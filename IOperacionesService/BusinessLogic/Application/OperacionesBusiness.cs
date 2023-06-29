@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Erp.Api.Application.Dtos.Commons;
 using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.Domain.Entities;
 using Erp.Api.OperacionesService.BusinessLogic.Interfaces;
@@ -22,7 +23,7 @@ namespace Erp.Api.OperacionesService.BusinessLogic.Application
 
         public async Task DeleteOperacion(Guid guid)
         {
-            await GetPresupuesto().Eliminar(guid);
+            await GetPresupuesto().EliminarOperacion(guid);
         }
 
         public async Task<List<BusOperacionSumaryDto>> GetAllOperaciones(string tipoOperacion)
@@ -50,15 +51,17 @@ namespace Erp.Api.OperacionesService.BusinessLogic.Application
             return operacion.TipoDoc.Name switch
             {
                 "PRESUPUESTO" => await GetPresupuesto().Imprimir(guid),
+                "REMITO" => await GetRemito().Imprimir(guid),
                 _ => throw new ArgumentException("Tipo de operación no válido"),
             };
         }
 
-        public async Task<BusOperacionSumaryDto> NuevaOperacion(string tipoOperacion)
+        public async Task<BusOperacionSumaryDto> NuevaOperacion(string tipoOperacion, Request? request)
         {
             return tipoOperacion switch
             {
                 "PRESUPUESTO" => _mapper.Map<BusOperacionSumaryDto>(await GetPresupuesto().NuevaOperacion(null)),
+                "REMITO" => _mapper.Map<BusOperacionSumaryDto>(await GetRemito().NuevaOperacion(request)),
                 _ => throw new ArgumentException("Tipo de operación no válido"),
             };
         }
@@ -84,6 +87,14 @@ namespace Erp.Api.OperacionesService.BusinessLogic.Application
         {
             Presupuesto presupuesto = _serviceProvider.GetRequiredService<Presupuesto>();
             return presupuesto;
+        }
+        #endregion
+
+        #region Remitos
+        private Remito GetRemito()
+        {
+            Remito remito = _serviceProvider.GetRequiredService<Remito>();
+            return remito;
         }
         #endregion 
     }

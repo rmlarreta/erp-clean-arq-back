@@ -22,7 +22,7 @@ namespace Erp.Api.Web.Controllers
         [ProducesResponseType(typeof(DataResponse<BusOperacionSumaryDto>), StatusCodes.Status201Created)]
         public async Task<IActionResult> NuevoPresupuesto()
         {
-            return Ok(await _operaciones.NuevaOperacion("PRESUPUESTO"));
+            return Ok(await _operaciones.NuevaOperacion("PRESUPUESTO",null));
         }
 
         [HttpGet]
