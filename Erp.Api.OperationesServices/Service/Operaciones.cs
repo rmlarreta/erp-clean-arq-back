@@ -21,7 +21,7 @@ namespace Erp.Api.OperacionesService.Service
     {
         protected readonly IRepository<SystemIndex> _indexs;
         private readonly ISysEmpresaService _empresa;
-        private readonly ISecurityService _security;
+        protected readonly ISecurityService _security;
         private readonly ICustomer _customer;
         protected readonly IEstado _estado;
         protected readonly ITipoDoc _tipos;

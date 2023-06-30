@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class CobReciboDetalle
-{
-    public Guid Id { get; set; }
-
+public partial class CobReciboDetalle : Entity
+{  
     public Guid ReciboId { get; set; }
 
     public decimal Monto { get; set; }

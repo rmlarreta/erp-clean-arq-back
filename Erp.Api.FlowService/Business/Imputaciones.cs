@@ -36,12 +36,20 @@ namespace Erp.Api.FlowService.Business
             var totalRecibo = 0.0m;
             if (request.GuidOperacion != null)
             {
-                operacion = _mapper.Map<BusOperacionSumaryDto>(await _operaciones.Get((Guid)request.GuidOperacion));
+                Expression<Func<BusOperacion, object>>[] includeProperties = new Expression<Func<BusOperacion, object>>[]
+                {
+                    o=>o.BusOperacionDetalles
+                };
+                operacion = _mapper.Map<BusOperacionSumaryDto>(await _operaciones.Get((Guid)request.GuidOperacion, includeProperties));
             }
             if (request.GuidRecibo != null)
             {
                 await IsImputado((Guid)request.GuidRecibo);
-                recibo = await _recibos.Get((Guid)request.GuidRecibo!);
+                Expression<Func<CobRecibo, object>>[] includeProperties = new Expression<Func<CobRecibo, object>>[]
+               {
+                    o=>o.CobReciboDetalles
+               };
+                recibo = await _recibos.Get((Guid)request.GuidRecibo!,includeProperties);
                 totalRecibo = recibo.CobReciboDetalles.Sum(x => x.Monto);
 
             }
@@ -55,15 +63,16 @@ namespace Erp.Api.FlowService.Business
                     ReciboId = recibo.Id,
                 };
                 Expression<Func<BusEstado, bool>> expression = c => c.Name == Estados.PAGADO.Name;
-                Expression<Func<BusEstado, object>>[] includeProperties = Array.Empty<Expression<Func<BusEstado, object>>>();
-                operacion.EstadoId = _estados.Get(expression, includeProperties).Result.Id;
+                Expression<Func<BusEstado, object>>[] includeProperties = Array.Empty<Expression<Func<BusEstado, object>>>();              
+                var operacionToUpdate = await _operaciones.GetReloadAsync(operacion.Id);
+                operacionToUpdate.Estado = _estados.Get(expression, includeProperties).Result;
                 foreach (var item in recibo.CobReciboDetalles)
                 {
                     item.Cancelado = true;
                 }
 
                 _pagos.Add(_mapper.Map<BusOperacionPago>(pagoDto));
-                _operaciones.Update(_mapper.Map<BusOperacion>(operacion));
+                _operaciones.Update(operacionToUpdate);
                 _recibos.Update(recibo);
                 _unitOfWork.Commit();
             }

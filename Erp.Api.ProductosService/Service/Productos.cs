@@ -23,11 +23,13 @@ namespace Erp.Api.ProductosService.Service
 
         public async Task<ProductoDto> GetById(Guid id)
         {
-            return await Task.FromResult(_mapper.Map<ProductoDto>(Get(id)));
+            var producto = await Get(id);
+            return _mapper.Map<ProductoDto>(producto);
         }
 
         public async Task InsertProducto(ProductoDto producto)
         {
+            producto.Id = Guid.NewGuid();
             await Add(_mapper.Map<StockProduct>(producto));
         }
 
