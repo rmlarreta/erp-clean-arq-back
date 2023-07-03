@@ -11,6 +11,6 @@ namespace Erp.Api.OperacionesService.Service
         public abstract Task EliminarOperacion(Guid id);
         public abstract Task<BusOperacion> NuevaOperacion(Request? request);
         public abstract Task<FileStreamResult> Imprimir(Guid guid);
-        public abstract Task UpdateOperacion(BusOperacion operacion);
+        public abstract Task UpdateOperacion(BusOperacion operacion); 
     }
 }

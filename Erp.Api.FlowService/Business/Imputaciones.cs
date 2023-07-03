@@ -25,7 +25,7 @@ namespace Erp.Api.FlowService.Business
             _operaciones = _unitOfWork.GetRepository<BusOperacion>();
             _recibos = _unitOfWork.GetRepository<CobRecibo>();
             _pagos = _unitOfWork.GetRepository<BusOperacionPago>();
-            _estados = _unitOfWork.GetRepository<BusEstado>(); 
+            _estados = _unitOfWork.GetRepository<BusEstado>();
             _mapper = mapper;
         }
 
@@ -49,9 +49,8 @@ namespace Erp.Api.FlowService.Business
                {
                     o=>o.CobReciboDetalles
                };
-                recibo = await _recibos.Get((Guid)request.GuidRecibo!,includeProperties);
+                recibo = await _recibos.Get((Guid)request.GuidRecibo!, includeProperties);
                 totalRecibo = recibo.CobReciboDetalles.Sum(x => x.Monto);
-
             }
 
             if (operacion.Total == totalRecibo)
@@ -63,12 +62,12 @@ namespace Erp.Api.FlowService.Business
                     ReciboId = recibo.Id,
                 };
                 Expression<Func<BusEstado, bool>> expression = c => c.Name == Estados.PAGADO.Name;
-                Expression<Func<BusEstado, object>>[] includeProperties = Array.Empty<Expression<Func<BusEstado, object>>>();              
+                Expression<Func<BusEstado, object>>[] includeProperties = Array.Empty<Expression<Func<BusEstado, object>>>();
                 var operacionToUpdate = await _operaciones.GetReloadAsync(operacion.Id);
                 operacionToUpdate.Estado = _estados.Get(expression, includeProperties).Result;
                 foreach (var item in recibo.CobReciboDetalles)
                 {
-                    item.Cancelado = true;
+                    item.Cancelado = item.TipoNavigation.Name !="CUENTA CORRIENTE";
                 }
 
                 _pagos.Add(_mapper.Map<BusOperacionPago>(pagoDto));

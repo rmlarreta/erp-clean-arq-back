@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class CobCuentum
-{
-    public Guid Id { get; set; }
-
+public partial class CobCuentum : Entity
+{ 
     public string Name { get; set; } = null!;
 
     public decimal Saldo { get; set; }

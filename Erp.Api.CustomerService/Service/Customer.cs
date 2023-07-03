@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Erp.Api.Application.Dtos.Customers;
 using Erp.Api.Domain.Entities;
+using Erp.Api.Domain.Repositories;
 using Erp.Api.Infraestructure.UnitOfWorks;
 using Erp.Api.Infrastructure.Data.Services;
 using System.Linq.Expressions;
@@ -8,10 +9,14 @@ using System.Linq.Expressions;
 namespace Erp.Api.CustomerService.Service
 {
     public class Customer : Service<OpCliente>, ICustomer
-    {
-        private readonly IMapper _mapper;
+    {   
+        protected readonly IMapper _mapper;
+        protected readonly IRepository<BusOperacion> _operaciones;
+        protected readonly IRepository<CobRecibo> _recibos;
         public Customer(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
         {
+            _operaciones = _unitOfWork.GetRepository<BusOperacion>();
+            _recibos = _unitOfWork.GetRepository<CobRecibo>();
             _mapper = mapper;
         }
 
@@ -19,6 +24,9 @@ namespace Erp.Api.CustomerService.Service
         {
             var customer = await GetById(id);
             if (customer.Cui == "0") throw new Exception("Este Cliente no es eliminable");
+            Expression<Func<BusOperacion, bool>> expression = c => c.ClienteId == customer.Id;
+            if (await _operaciones.AnyAsync(expression)) throw new Exception("Este Cliente no es eliminable");
+
             await Delete(id);
         }
 

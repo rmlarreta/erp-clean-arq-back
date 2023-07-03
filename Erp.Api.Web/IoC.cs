@@ -1,5 +1,6 @@
 ﻿using Erp.Api.Application.CommonService.Interfaces;
 using Erp.Api.Application.CommonService.Services;
+using Erp.Api.CustomerService.Business;
 using Erp.Api.CustomerService.Service;
 using Erp.Api.Domain.Entities;
 using Erp.Api.Domain.Repositories;
@@ -32,9 +33,7 @@ namespace Erp.Api.Web
             #region Commons
             services.AddScoped<ISystemIndexService, SystemIndexService>();
             services.AddScoped<ISysEmpresaService, SysEmpresaService>();
-            #endregion
-
-
+            #endregion 
 
             #region Service
             services.AddScoped<ISecurityService, Erp.Api.SecurityService.Application.SecurityService>();
@@ -52,6 +51,7 @@ namespace Erp.Api.Web
             services.AddScoped<ITipoPagos, TipoPagos>();
             services.AddScoped<IPos, Pos>();
             services.AddScoped<IImputaciones, Imputaciones>();
+            services.AddScoped<ICustomerBusiness, CustomerBusiness>();
             #endregion Service
 
             #region Repositories

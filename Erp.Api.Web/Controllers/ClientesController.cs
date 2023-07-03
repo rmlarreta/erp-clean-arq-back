@@ -1,19 +1,23 @@
 ﻿using Erp.Api.Application.Dtos.Commons;
 using Erp.Api.Application.Dtos.Customers;
+using Erp.Api.CustomerService.Business;
 using Erp.Api.CustomerService.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Api.Web.Controllers
-{
+{ 
     public class ClientesController : CommonController
     {
         private readonly ICustomer _customer;
+        private readonly ICustomerBusiness _customerBusiness;
 
-        public ClientesController(ICustomer customer)
+        public ClientesController(ICustomer customer, ICustomerBusiness customerBusiness)
         {
             _customer = customer;
+            _customerBusiness = customerBusiness;
         }
-         
+
         [HttpGet]
         [ProducesResponseType(typeof(DataResponse<List<OpCustomerDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllClientes()
@@ -50,6 +54,20 @@ namespace Erp.Api.Web.Controllers
         {
             await _customer.UpdateCliente(customer);
             return Ok();
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(DataResponse<CustomerConciliacion>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetConciliacion(Guid id)
+        {
+            CustomerConciliacion? conciliacion = await _customerBusiness.GetConciliacion(id);
+
+            if (conciliacion == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(conciliacion);
         }
     }
 }

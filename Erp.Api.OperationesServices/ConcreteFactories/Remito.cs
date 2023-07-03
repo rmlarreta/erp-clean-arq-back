@@ -22,6 +22,7 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
         private readonly IRepository<BusOperacionPago> _imputaciones;
         private readonly IRepository<StockProduct> _productos;
         private readonly IRepository<CobReciboDetalle> _recibos;
+        private readonly IRepository<CobCuentum> _cuentas;
         public Remito(
             IUnitOfWork unitOfWork,
             ISysEmpresaService empresa,
@@ -34,11 +35,12 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
             _imputaciones = _unitOfWork.GetRepository<BusOperacionPago>();
             _productos = _unitOfWork.GetRepository<StockProduct>();
             _recibos = _unitOfWork.GetRepository<CobReciboDetalle>();
+            _cuentas = _unitOfWork.GetRepository<CobCuentum>();
         }
 
         public override async Task<BusOperacion> NuevaOperacion(Request? request)
         {
-            var operacion = await PrepararDocumento(request!); 
+            var operacion = await PrepararDocumento(request!);
 
             return _mapper.Map<BusOperacion>(operacion);
         }
@@ -53,8 +55,6 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
             await ActualizaStock(operacion);
 
             NumeroLetra numeroLetra = await NumeroLetraDocumento();
-
-           // var operacionInsert = _mapper.Map<BusOperacionInsert>(operacion);
 
             operacion.EstadoId = EstadoDelDocumento().Result.Id;
             operacion.Numero = numeroLetra.Numero;
@@ -98,13 +98,17 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
         private async Task ImputarPago(BusOperacion operacion, Guid recibo)
         {
             Expression<Func<CobReciboDetalle, bool>> expression = c => c.ReciboId == recibo;
-            Expression<Func<CobReciboDetalle, object>>[] includeProperties = Array.Empty<Expression<Func<CobReciboDetalle, object>>>();
-            IList<CobReciboDetalle> detalles = await _recibos.GetAll(expression, includeProperties).ToListAsync();
+            Expression<Func<CobReciboDetalle, object>>[] includeProperties = new Expression<Func<CobReciboDetalle, object>>[]
+            {
+              o => o.TipoNavigation
+            };
+            List<CobReciboDetalle> detalles = await _recibos.GetAll(expression, includeProperties).ToListAsync();
+
             var totalRecibo = 0.0m;
             foreach (var detalle in detalles)
             {
                 totalRecibo += detalle.Monto;
-                detalle.Cancelado = true;
+                detalle.Cancelado = detalle.TipoNavigation.Name != "CUENTA CORRIENTE";
             }
             var operacionDto = _mapper.Map<BusOperacionSumaryDto>(operacion);
             if (operacionDto.Total == totalRecibo)
@@ -117,8 +121,10 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
                 };
 
                 _imputaciones.Add(_mapper.Map<BusOperacionPago>(pagoDto));
-                _recibos.UpdateRange(detalles.ToList());
+                _recibos.UpdateRange(detalles);
             }
+
+            await ActualizarCuentas(detalles);
         }
         private async Task ActualizaStock(BusOperacion operacion)
         {
@@ -128,10 +134,20 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
                 var producto = await _productos.Get(detalles.ProductoId);
                 producto.Cantidad -= detalles.Cantidad;
                 productos.Add(producto);
-
-
             };
             _productos.UpdateRange(productos);
+        }
+
+        private async Task ActualizarCuentas(List<CobReciboDetalle> detalles)
+        {
+            List<CobCuentum> cuentas = new();
+            foreach (var detalle in detalles)
+            {
+                var cuenta = await _cuentas.Get((Guid)detalle.TipoNavigation.CuentaId!);
+                cuenta.Saldo += detalle.Monto;
+                cuentas.Add(cuenta);
+            };
+            _cuentas.UpdateRange(cuentas);
         }
     }
 }
