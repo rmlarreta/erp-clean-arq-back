@@ -47,12 +47,34 @@ namespace Erp.Api.CustomerService.Business
               o => o.BusOperacionDetalles,
               o => o.BusOperacionObservacions,
               o => o.TipoDoc,
-              o => o.Estado
+              o => o.Estado,
+              o => o.BusOperacionPagos
              };
             var operaciones = await Task.FromResult(_operaciones.GetAll(expression, includeProperties));
-            return _mapper.Map<List<BusOperacionSumaryDto>>(operaciones);
+
+            var operacionesDto = _mapper.Map<List<BusOperacionSumaryDto>>(operaciones);
+            foreach (var operacionDto in operacionesDto)
+            {
+                operacionDto.SaldosPendientes = await SaldosRecibo(operacionDto.Pagos!);
+            }
+            return operacionesDto;
         }
 
+        private async Task<decimal> SaldosRecibo(List<BusOperacionPagoDto> Pagos)
+        {
+            var total = 0.0m;
+            foreach (var pago in Pagos)
+            {
+                Expression<Func<CobRecibo, bool>> expression = recibo => recibo.Id == pago.ReciboId;
+                Expression<Func<CobRecibo, object>>[] includeProperties = new Expression<Func<CobRecibo, object>>[]
+               {
+              o => o.CobReciboDetalles.Where(x=>x.TipoNavigation.Name=="CUENTA CORRIENTE")
+               };
+                var result = await _recibos.Get(expression, includeProperties);
+                total += result.CobReciboDetalles.Sum(x => x.Monto);
+            }
+            return total;
+        }
         private async Task<IList<CobReciboInsert>> RecibosNoImputados(Guid CustomerId)
         {
             Expression<Func<CobRecibo, bool>> expression = recibo => recibo.ClienteId == CustomerId &&

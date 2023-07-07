@@ -1,6 +1,8 @@
 ﻿using Erp.Api.Application.Dtos.Commons;
+using Erp.Api.Application.Dtos.Flow;
 using Erp.Api.Application.Dtos.Operaciones.Detalles;
 using Erp.Api.Application.Dtos.Operaciones.Observaciones;
+using Erp.Api.Domain.Entities;
 using Erp.Api.Infrastructure.Helpers;
 
 namespace Erp.Api.Application.Dtos.Operaciones
@@ -27,6 +29,10 @@ namespace Erp.Api.Application.Dtos.Operaciones
 
         public List<BusOperacionesObservacionDto> Observaciones { get; set; } = new();
 
+        public List<BusOperacionPagoDto>? Pagos { get; set; } = new();
+
         public SysEmpresaDto Empresa { get; set; } = new();
+
+        public decimal? SaldosPendientes { get; set; }
     }
 }

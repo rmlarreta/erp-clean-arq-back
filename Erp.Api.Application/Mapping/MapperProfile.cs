@@ -51,7 +51,8 @@ namespace Erp.Api.Application.Mapping
                 .ForMember(dest => dest.Domicilio, opt => opt.MapFrom(src => src.Cliente.Domicilio))
                 .ForMember(dest => dest.Resp, opt => opt.MapFrom(src => src.Cliente.RespNavigation.Name))
                 .ForMember(dest => dest.Detalles, opt => opt.MapFrom(src => src.BusOperacionDetalles))
-                .ForMember(dest => dest.Observaciones, opt => opt.MapFrom(src => src.BusOperacionObservacions));
+                .ForMember(dest => dest.Observaciones, opt => opt.MapFrom(src => src.BusOperacionObservacions))
+                .ForMember(dest => dest.Pagos, opt => opt.MapFrom(src => src.BusOperacionPagos));
 
             CreateMap<BusOperacionDto, BusOperacionSumaryDto>()
                 .ReverseMap();
