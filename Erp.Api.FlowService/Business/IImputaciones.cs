@@ -4,6 +4,7 @@ namespace Erp.Api.FlowService.Business
 {
     public interface IImputaciones
     {
-        Task ImputarPago(Request request);
+        Task SaldarPago(Request request);
+        Task ImputarAlone(Request request);
     }
 }

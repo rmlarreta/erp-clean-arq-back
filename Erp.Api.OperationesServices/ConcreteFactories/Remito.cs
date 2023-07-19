@@ -21,8 +21,7 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
     {
         private readonly IRepository<BusOperacionPago> _imputaciones;
         private readonly IRepository<StockProduct> _productos;
-        private readonly IRepository<CobReciboDetalle> _recibos;
-        private readonly IRepository<CobCuentum> _cuentas;
+        private readonly IRepository<CobReciboDetalle> _recibos; 
         public Remito(
             IUnitOfWork unitOfWork,
             ISysEmpresaService empresa,
@@ -34,8 +33,7 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
         {
             _imputaciones = _unitOfWork.GetRepository<BusOperacionPago>();
             _productos = _unitOfWork.GetRepository<StockProduct>();
-            _recibos = _unitOfWork.GetRepository<CobReciboDetalle>();
-            _cuentas = _unitOfWork.GetRepository<CobCuentum>();
+            _recibos = _unitOfWork.GetRepository<CobReciboDetalle>(); 
         }
 
         public override async Task<BusOperacion> NuevaOperacion(Request? request)
@@ -87,7 +85,6 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
             _indexs.Update(index);
             return numeroLetra;
         }
-
         private async Task IsImputado(Guid reciboId)
         {
             if (await _imputaciones.AnyAsync(x => x.ReciboId == reciboId))
@@ -104,27 +101,19 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
             };
             List<CobReciboDetalle> detalles = await _recibos.GetAll(expression, includeProperties).ToListAsync();
 
-            var totalRecibo = 0.0m;
-            foreach (var detalle in detalles)
+            BusOperacionPagoDto pagoDto = new()
             {
-                totalRecibo += detalle.Monto;
-                detalle.Cancelado = detalle.TipoNavigation.Name != "CUENTA CORRIENTE";
-            }
-            var operacionDto = _mapper.Map<BusOperacionSumaryDto>(operacion);
-            if (operacionDto.Total == totalRecibo)
+                Id = Guid.NewGuid(),
+                OperacionId = operacion.Id,
+                ReciboId = recibo,
+            };
+            foreach(var detalle in detalles)
             {
-                BusOperacionPagoDto pagoDto = new()
-                {
-                    Id = Guid.NewGuid(),
-                    OperacionId = operacion.Id,
-                    ReciboId = recibo,
-                };
+                detalle.Cancelado=true;
+            };
 
-                _imputaciones.Add(_mapper.Map<BusOperacionPago>(pagoDto));
-                _recibos.UpdateRange(detalles);
-            }
-
-            await ActualizarCuentas(detalles);
+            _imputaciones.Add(_mapper.Map<BusOperacionPago>(pagoDto));
+            _recibos.UpdateRange(detalles);
         }
         private async Task ActualizaStock(BusOperacion operacion)
         {
@@ -136,18 +125,6 @@ namespace Erp.Api.OperacionesService.ConcreteFactories
                 productos.Add(producto);
             };
             _productos.UpdateRange(productos);
-        }
-
-        private async Task ActualizarCuentas(List<CobReciboDetalle> detalles)
-        {
-            List<CobCuentum> cuentas = new();
-            foreach (var detalle in detalles)
-            {
-                var cuenta = await _cuentas.Get((Guid)detalle.TipoNavigation.CuentaId!);
-                cuenta.Saldo += detalle.Monto;
-                cuentas.Add(cuenta);
-            };
-            _cuentas.UpdateRange(cuentas);
         }
     }
 }

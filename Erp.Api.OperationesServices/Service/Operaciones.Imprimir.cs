@@ -116,7 +116,7 @@ namespace Erp.Api.OperacionesService.Service
                             .PaddingVertical(2, Unit.Millimetre)
                             .DefaultTextStyle(t => t.SemiBold())
                             .Text("Cuit: " + operacion.Cliente.Cui
-                            + "\n" + "RESPONSABLE " + operacion.Cliente.RespNavigation.Name
+                            + "\n" + "IVA: " + operacion.Cliente.RespNavigation.Name
                             );
                         });
                     });

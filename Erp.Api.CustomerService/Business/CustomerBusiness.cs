@@ -21,42 +21,42 @@ namespace Erp.Api.CustomerService.Business
             var recibos = await RecibosNoImputados(CustomerId);
             var montoRecibos = recibos.SelectMany(recibo => recibo.Detalles)
                               .Sum(detalle => detalle.Monto);
-            var debt = await GetCCorrientes(CustomerId);
+            var debt = impagas.Sum(x => x.SaldosPendientes);
             CustomerConciliacion conciliacion = new()
             {
                 Customer = customer,
                 OperacionesImpagas = impagas,
                 RecibosNoImputados = recibos,
-                Debe = debt + montoRecibos
+                Debe = (decimal)debt!
             };
             return conciliacion;
 
         }
 
-        private async Task<IList<BusOperacionSumaryDto>> OperacionesImpagas(Guid CustomerId)
+        public async Task<IList<BusOperacionSumaryDto>> OperacionesImpagas(Guid CustomerId)
         {
-            Expression<Func<BusOperacion, bool>> expression = operacion => operacion.ClienteId == CustomerId &&
-            operacion.BusOperacionPagos.Any(pago =>
-            pago.Recibo.CobReciboDetalles.Any(detalle =>
-            detalle.TipoNavigation.Name == "CUENTA CORRIENTE")
-            );
+            Expression<Func<BusOperacion, bool>> expression = operacion =>
+                operacion.ClienteId == CustomerId && operacion.BusOperacionPagos.Any();
+
             Expression<Func<BusOperacion, object>>[] includeProperties = new Expression<Func<BusOperacion, object>>[]
-             {
-              o => o.Cliente,
-              o => o.Cliente.RespNavigation,
-              o => o.BusOperacionDetalles,
-              o => o.BusOperacionObservacions,
-              o => o.TipoDoc,
-              o => o.Estado,
-              o => o.BusOperacionPagos
-             };
+            {
+        o => o.Cliente,
+        o => o.Cliente.RespNavigation,
+        o => o.BusOperacionDetalles,
+        o => o.BusOperacionObservacions,
+        o => o.TipoDoc,
+        o => o.Estado,
+        o => o.BusOperacionPagos
+            };
+
             var operaciones = await Task.FromResult(_operaciones.GetAll(expression, includeProperties));
 
             var operacionesDto = _mapper.Map<List<BusOperacionSumaryDto>>(operaciones);
             foreach (var operacionDto in operacionesDto)
             {
-                operacionDto.SaldosPendientes = await SaldosRecibo(operacionDto.Pagos!);
+                operacionDto.SaldosPendientes = operacionDto.Total - await SaldosRecibo(operacionDto.Pagos!);
             }
+            operacionesDto.RemoveAll(x => x.SaldosPendientes <= 0);
             return operacionesDto;
         }
 
@@ -68,7 +68,7 @@ namespace Erp.Api.CustomerService.Business
                 Expression<Func<CobRecibo, bool>> expression = recibo => recibo.Id == pago.ReciboId;
                 Expression<Func<CobRecibo, object>>[] includeProperties = new Expression<Func<CobRecibo, object>>[]
                {
-              o => o.CobReciboDetalles.Where(x=>x.TipoNavigation.Name=="CUENTA CORRIENTE")
+              o => o.CobReciboDetalles.Where(x=>x.Cancelado ==true)
                };
                 var result = await _recibos.Get(expression, includeProperties);
                 total += result.CobReciboDetalles.Sum(x => x.Monto);
@@ -77,32 +77,20 @@ namespace Erp.Api.CustomerService.Business
         }
         private async Task<IList<CobReciboInsert>> RecibosNoImputados(Guid CustomerId)
         {
-            Expression<Func<CobRecibo, bool>> expression = recibo => recibo.ClienteId == CustomerId &&
-              !recibo.BusOperacionPagos.Any(pago =>
-              pago.ReciboId == recibo.Id);
-            Expression<Func<CobRecibo, object>>[] includeProperties = new Expression<Func<CobRecibo, object>>[]
-           {
-              o => o.CobReciboDetalles
-           };
-            var recibos = await Task.FromResult(_recibos.GetAll(expression, includeProperties));
-            return _mapper.Map<List<CobReciboInsert>>(recibos);
-        }
-
-        private async Task<decimal> GetCCorrientes(Guid CustomerId)
-        {
-            Expression<Func<CobRecibo, bool>> expression = recibo =>
-            recibo.ClienteId == CustomerId &&
-            recibo.CobReciboDetalles.Any(detalle => detalle.TipoNavigation.Name == "CUENTA CORRIENTE");
-
+            Expression<Func<CobRecibo, bool>> filter = recibo => recibo.ClienteId == CustomerId && recibo.CobReciboDetalles.Any(x => x.Cancelado==false);
             Expression<Func<CobRecibo, object>>[] includeProperties = new Expression<Func<CobRecibo, object>>[]
             {
-            o => o.CobReciboDetalles
+        o => o.CobReciboDetalles.Where(x =>  x.Cancelado==false)
             };
 
-            var recibos = await Task.FromResult(_recibos.GetAll(expression, includeProperties));
-            return recibos.SelectMany(recibo => recibo.CobReciboDetalles)
-                                          .Where(detalle => detalle.TipoNavigation.Name == "CUENTA CORRIENTE")
-                                          .Sum(detalle => detalle.Monto);
+            var recibos =await Task.FromResult(_recibos.GetAll(filter, includeProperties));
+            foreach (var recibo in recibos)
+            {
+                recibo.CobReciboDetalles = recibo.CobReciboDetalles.Where(x => x.Cancelado == false).ToList();
+            }
+
+
+            return _mapper.Map<List<CobReciboInsert>>(recibos);
         }
     }
 }
