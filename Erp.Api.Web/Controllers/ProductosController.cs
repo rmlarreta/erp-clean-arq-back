@@ -22,7 +22,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<ProductoSummaryDto>? productos = await _productos.Listado();
 
-            if (productos == null)
+            if (!productos.Any())
             {
                 return NoContent();
             }

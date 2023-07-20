@@ -20,7 +20,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<OpGender>? genders = await _commons.Genders();
 
-            if (genders == null)
+            if (!genders.Any())
             {
                 return NoContent();
             }
@@ -34,7 +34,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<OpPai>? paises = await _commons.Paises();
 
-            if (paises == null)
+            if (!paises.Any())
             {
                 return NoContent();
             }
@@ -48,7 +48,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<OpResp>? resps = await _commons.Resps();
 
-            if (resps == null)
+            if (!resps.Any())
             {
                 return NoContent();
             }

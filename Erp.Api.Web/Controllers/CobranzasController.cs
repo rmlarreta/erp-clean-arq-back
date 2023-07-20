@@ -50,7 +50,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<CobTipoPagoDto>? tipos = await _tipoPagos.GetTipoPagos();
 
-            if (tipos == null)
+            if (!tipos.Any())
             {
                 return NoContent();
             }
@@ -64,7 +64,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<PosDto>? pos = await _pos.GetPos();
 
-            if (pos == null)
+            if (!pos.Any())
             {
                 return NoContent();
             }

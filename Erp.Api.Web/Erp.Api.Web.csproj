@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Erp.Api.FlowService\Erp.Api.FlowService.csproj" />
     <ProjectReference Include="..\Erp.Api.OperationesServices\Erp.Api.OperacionesService.csproj" />
     <ProjectReference Include="..\Erp.Api.ProductosService\Erp.Api.ProductosService.csproj" />
+    <ProjectReference Include="..\Erp.Api.ProviderService\Erp.Api.ProviderService.csproj" />
     <ProjectReference Include="..\Erp.Api.SecurityService\Erp.Api.SecurityService.csproj" />
   </ItemGroup>
 

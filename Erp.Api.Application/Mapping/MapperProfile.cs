@@ -6,6 +6,7 @@ using Erp.Api.Application.Dtos.Operaciones;
 using Erp.Api.Application.Dtos.Operaciones.Commons;
 using Erp.Api.Application.Dtos.Operaciones.Detalles;
 using Erp.Api.Application.Dtos.Productos;
+using Erp.Api.Application.Dtos.Providers;
 using Erp.Api.Application.Dtos.Security;
 using Erp.Api.Application.Dtos.Users;
 using Erp.Api.Application.Dtos.Users.Commons;
@@ -129,6 +130,14 @@ namespace Erp.Api.Application.Mapping
             CreateMap<BusOperacionPago, BusOperacionPagoDto>()
                 .ReverseMap();
             #endregion
+
+            #region Proveedores
+            CreateMap<OpDocumentoProveedor, OpDocumentoProveedorDto>()
+                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado))
+                .ForMember(dest => dest.Proveedor, opt => opt.MapFrom(src => src.Proveedor))
+                .ForMember(dest => dest.TipoDoc, opt => opt.MapFrom(src => src.TipoDoc))
+                .ReverseMap();
+            #endregion 
         }
     }
 }

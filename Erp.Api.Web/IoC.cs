@@ -16,6 +16,8 @@ using Erp.Api.OperacionesService.BusinessLogic.Interfaces;
 using Erp.Api.OperacionesService.ConcreteFactories;
 using Erp.Api.OperacionesService.Service;
 using Erp.Api.ProductosService.Service;
+using Erp.Api.ProviderService.BusinessLogic;
+using Erp.Api.ProviderService.Services;
 using Erp.Api.SecurityService.Interfaces;
 
 namespace Erp.Api.Web
@@ -52,6 +54,8 @@ namespace Erp.Api.Web
             services.AddScoped<IPos, Pos>();
             services.AddScoped<IImputaciones, Imputaciones>();
             services.AddScoped<ICustomerBusiness, CustomerBusiness>();
+            services.AddScoped<IProvidersBusiness, ProvidersBusiness>();
+            services.AddScoped<IDocumentoProveedorService, DocumentoProveedorService>();
             #endregion Service
 
             #region Repositories

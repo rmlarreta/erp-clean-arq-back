@@ -1,9 +1,7 @@
 ﻿namespace Erp.Api.Domain.Entities;
 
-public partial class OpDocumentoProveedor
-{
-    public Guid Id { get; set; }
-
+public partial class OpDocumentoProveedor : Entity
+{ 
     public Guid ProveedorId { get; set; }
 
     public DateTime Fecha { get; set; }

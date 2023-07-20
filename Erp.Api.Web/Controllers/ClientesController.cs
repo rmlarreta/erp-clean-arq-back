@@ -24,7 +24,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<OpCustomerDto>? customers = await _customer.GetAllClientes();
 
-            if (customers == null)
+            if (!customers.Any())
             {
                 return NoContent();
             }

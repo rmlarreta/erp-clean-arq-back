@@ -1,6 +1,10 @@
-﻿namespace Erp.Api.ProviderService.BusinessLogic
+﻿using Erp.Api.Application.Dtos.Providers;
+
+namespace Erp.Api.ProviderService.BusinessLogic
 {
-    internal interface IProvidersBusiness
+    public interface IProvidersBusiness
     {
+        Task<List<OpDocumentoProveedorDto>> GetDocumentosPendientes();
+
     }
 }

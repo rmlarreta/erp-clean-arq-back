@@ -31,7 +31,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<BusOperacionSumaryDto>? presupuestos = await _operaciones.GetAllOperaciones("PRESUPUESTO");
 
-            if (presupuestos == null)
+            if (!presupuestos.Any())
             {
                 return NoContent();
             }

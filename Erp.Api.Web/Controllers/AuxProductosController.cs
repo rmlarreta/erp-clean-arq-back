@@ -19,9 +19,9 @@ namespace Erp.Api.Web.Controllers
         [ProducesResponseType(typeof(DataResponse<List<RubroDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllRubros()
         {
-            List<RubroDto>? rubros = await _rubros.GetAllRubros();
+            List<RubroDto>? rubros = await _rubros.GetAllRubros(); 
 
-            if (rubros == null)
+            if (!rubros.Any())
             {
                 return NoContent();
             }
@@ -35,7 +35,7 @@ namespace Erp.Api.Web.Controllers
         {
             List<IvaDto>? rubros = await _iva.GetIvas();
 
-            if (rubros == null)
+            if (!rubros.Any())
             {
                 return NoContent();
             }
