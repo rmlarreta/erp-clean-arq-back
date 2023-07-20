@@ -3,27 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Web", "Erp.Api.Web\Erp.Api.Web.csproj", "{6AE13F6F-04B3-47EE-A169-3391DD92CED0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Web", "src\Erp.Api.Web\Erp.Api.Web.csproj", "{6AE13F6F-04B3-47EE-A169-3391DD92CED0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Domain", "Erp.Api.Domain\Erp.Api.Domain.csproj", "{BB14A094-B874-4646-A1F3-E7EA72233FF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Domain", "src\Erp.Api.Domain\Erp.Api.Domain.csproj", "{BB14A094-B874-4646-A1F3-E7EA72233FF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Infrastructure", "Erp.Api.Infrastructure\Erp.Api.Infrastructure.csproj", "{9F9CEF68-83B8-4482-9FFD-0AFB3FDB9432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Infrastructure", "src\Erp.Api.Infrastructure\Erp.Api.Infrastructure.csproj", "{9F9CEF68-83B8-4482-9FFD-0AFB3FDB9432}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.SecurityService", "Erp.Api.SecurityService\Erp.Api.SecurityService.csproj", "{26D9E938-4592-4941-9048-4BE8E452A955}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.SecurityService", "src\Erp.Api.SecurityService\Erp.Api.SecurityService.csproj", "{26D9E938-4592-4941-9048-4BE8E452A955}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Application", "Erp.Api.Application\Erp.Api.Application.csproj", "{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.Application", "src\Erp.Api.Application\Erp.Api.Application.csproj", "{6C8883C8-2089-4FA3-A4B9-A1457E3A36DB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Erp.Api.Application", "Erp.Api.Application", "{51E88297-4019-4840-B1F2-4FE9F1283EA6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Erp.Api.Application", "src\Erp.Api.Application", "{51E88297-4019-4840-B1F2-4FE9F1283EA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.CustomerService", "Erp.Api.CustomerService\Erp.Api.CustomerService.csproj", "{849F54E3-082B-4A7C-B284-77904C9F1FBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.CustomerService", "src\Erp.Api.CustomerService\Erp.Api.CustomerService.csproj", "{849F54E3-082B-4A7C-B284-77904C9F1FBD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.ProductosService", "Erp.Api.ProductosService\Erp.Api.ProductosService.csproj", "{7C395777-19C2-4B63-8940-B2DC86C92E91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.ProductosService", "src\Erp.Api.ProductosService\Erp.Api.ProductosService.csproj", "{7C395777-19C2-4B63-8940-B2DC86C92E91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.FlowService", "Erp.Api.FlowService\Erp.Api.FlowService.csproj", "{3E8683AE-5F0A-4B4F-92A3-D8B256620122}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.FlowService", "src\Erp.Api.FlowService\Erp.Api.FlowService.csproj", "{3E8683AE-5F0A-4B4F-92A3-D8B256620122}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.OperacionesService", "Erp.Api.OperationesServices\Erp.Api.OperacionesService.csproj", "{C4B08B26-D4F3-4668-A091-5D9AC6534309}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.Api.OperacionesService", "src\Erp.Api.OperationesServices\Erp.Api.OperacionesService.csproj", "{C4B08B26-D4F3-4668-A091-5D9AC6534309}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erp.Api.ProviderService", "Erp.Api.ProviderService\Erp.Api.ProviderService.csproj", "{ABAA00DD-48ED-44E8-8454-BEB14B645134}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erp.Api.ProviderService", "src\Erp.Api.ProviderService\Erp.Api.ProviderService.csproj", "{ABAA00DD-48ED-44E8-8454-BEB14B645134}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
