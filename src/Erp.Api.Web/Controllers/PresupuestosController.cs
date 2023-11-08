@@ -30,12 +30,7 @@ namespace Erp.Api.Web.Controllers
         public async Task<IActionResult> GetAllPresupuestos()
         {
             List<BusOperacionSumaryDto>? presupuestos = await _operaciones.GetAllOperaciones("PRESUPUESTO");
-
-            if (!presupuestos.Any())
-            {
-                return NoContent();
-            }
-
+ 
             return Ok(presupuestos);
         }
 

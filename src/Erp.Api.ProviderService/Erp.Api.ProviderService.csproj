@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Erp.Api.Application\Erp.Api.Application.csproj" />
+    <ProjectReference Include="..\Erp.Api.OperationesServices\Erp.Api.OperacionesService.csproj" />
   </ItemGroup>
 
 </Project>

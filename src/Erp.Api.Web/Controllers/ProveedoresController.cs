@@ -14,19 +14,31 @@ namespace Erp.Api.Web.Controllers
         {
             _providers = providers;
         }
-        [AllowAnonymous]
+
         [HttpGet]
-        [ProducesResponseType(typeof(DataResponse<List<OpDocumentoProveedorDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DataResponse<List<OpConciliacionProviders>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllPendientes()
         {
-            List<OpDocumentoProveedorDto>? documentos = await _providers.GetDocumentosPendientes();
-
-            if (!documentos.Any())
-            {
-                return NoContent();
-            }
+            List<OpConciliacionProviders>? documentos = await _providers.GetDocumentosPendientes();
 
             return Ok(documentos);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(DataResponse<>), StatusCodes.Status201Created)]
+        public async Task<IActionResult> InsertDocumento([FromBody] OpDocumentoProveedorInsert documento)
+        {
+            await _providers.AltaDocumento(documento);
+            return CreatedAtAction(nameof(GetAllPendientes), null);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(DataResponse<>), StatusCodes.Status201Created)]
+        public async Task<IActionResult> Pago([FromBody] OpPagoProveedor pago)
+        {
+            await _providers.Pago(pago);
+            return CreatedAtAction(nameof(GetAllPendientes), null);
         }
     }
 }

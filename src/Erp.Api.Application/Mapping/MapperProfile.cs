@@ -87,7 +87,7 @@ namespace Erp.Api.Application.Mapping
 
             #region Customers
 
-            CreateMap<OpCliente, OpCustomerInsert>() 
+            CreateMap<OpCliente, OpCustomerInsert>()
                .ReverseMap();
 
             CreateMap<OpCliente, OpCustomerDto>()
@@ -118,7 +118,7 @@ namespace Erp.Api.Application.Mapping
                 .ForMember(dest => dest.Detalles, opt => opt.MapFrom(src => src.CobReciboDetalles))
                 .ReverseMap();
 
-            CreateMap<CobReciboDetalle, CobReciboDetallesInsert>() 
+            CreateMap<CobReciboDetalle, CobReciboDetallesInsert>()
                .ReverseMap();
 
             CreateMap<CobTipoPago, CobTipoPagoDto>()
@@ -132,11 +132,18 @@ namespace Erp.Api.Application.Mapping
             #endregion
 
             #region Proveedores
-            CreateMap<OpDocumentoProveedor, OpDocumentoProveedorDto>()
-                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado))
-                .ForMember(dest => dest.Proveedor, opt => opt.MapFrom(src => src.Proveedor))
-                .ForMember(dest => dest.TipoDoc, opt => opt.MapFrom(src => src.TipoDoc))
+            CreateMap<OpDocumentoProveedor, OpDocumentoProveedorDto>() 
                 .ReverseMap();
+
+            CreateMap<OpDocumentoProveedor, OpDocumentoProveedorInsert>()
+                .ReverseMap();
+            CreateMap<OpDocumentoProveedorDto, OpDocumentoProveedorInsert>()
+               .ReverseMap();
+
+            CreateMap<OpPago, OpPagoProveedor>()
+                .ReverseMap();
+
+ 
             #endregion 
         }
     }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Erp.Api.Application.Dtos.Commons;
 using Erp.Api.Application.Dtos.Flow;
+using Erp.Api.Application.Dtos.Providers;
 using Erp.Api.CustomerService.Business;
 using Erp.Api.Domain.Entities;
 using Erp.Api.Domain.Repositories;
@@ -84,8 +85,7 @@ namespace Erp.Api.FlowService.Business
                 await _pagos.Add(_mapper.Map<BusOperacionPago>(busOperacionPago));
             }
             _unitOfWork.Commit();
-        }
-
+        }  
         public async Task SaldarPago(Request request)
         {
             await IsImputado((Guid)request.GuidRecibo!);

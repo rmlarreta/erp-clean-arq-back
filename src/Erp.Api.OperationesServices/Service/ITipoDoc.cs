@@ -5,5 +5,6 @@ namespace Erp.Api.OperacionesService.Service
     public interface ITipoDoc
     {
         Task<TipoOperacionDto> GetByName(string name);
+        Task<List<TipoOperacionDto>> GetAll();
     }
 }

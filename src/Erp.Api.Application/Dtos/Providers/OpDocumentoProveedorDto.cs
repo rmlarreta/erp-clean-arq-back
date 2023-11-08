@@ -18,7 +18,7 @@ namespace Erp.Api.Application.Dtos.Providers
         public decimal Monto { get; set; }
 
         public BusEstadoDto Estado { get; set; } = null!;
-          
+
         public OpCustomerDto Proveedor { get; set; } = null!;
 
         public TipoOperacionDto TipoDoc { get; set; } = null!;

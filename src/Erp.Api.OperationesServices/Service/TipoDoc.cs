@@ -21,5 +21,10 @@ namespace Erp.Api.OperacionesService.Service
             Expression<Func<BusOperacionTipo, object>>[] includeProperties = Array.Empty<Expression<Func<BusOperacionTipo, object>>>();
             return _mapper.Map<TipoOperacionDto>(await Get(expression, includeProperties));
         }
+
+        async Task<List<TipoOperacionDto>> ITipoDoc.GetAll()
+        {
+            return _mapper.Map<List<TipoOperacionDto>>(await Task.FromResult(GetAll()));
+        }
     }
 }
